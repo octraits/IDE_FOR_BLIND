@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<!-- saved from url=(0026)https://launchpad.net/pida -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" class="yui3-js-enabled"><div id="yui3-css-stamp" style="position: absolute !important; visibility: hidden !important" class=""></div><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script charset="utf-8" id="yui_3_10_3_1_1539884857018_2" src="./PIDA in Launchpad_files/saved_resource" async=""></script><script charset="utf-8" id="yui_3_10_3_1_1539884857018_3" src="./PIDA in Launchpad_files/saved_resource(1)" async=""></script><script charset="utf-8" id="yui_3_10_3_1_1539884857018_4" src="./PIDA in Launchpad_files/saved_resource(2)" async=""></script><script charset="utf-8" id="yui_3_10_3_1_1539884857018_40" src="./PIDA in Launchpad_files/saved_resource(3)" async=""></script><!--<base href="https://launchpad.net/pida/+index">--><base href=".">
+
+    
+    <title>PIDA in Launchpad</title>
+    <link rel="shortcut icon" href="https://launchpad.net/@@/launchpad.png">
+    
+    
+      <link rel="alternate" type="application/atom+xml" href="http://feeds.launchpad.net/pida/announcements.atom" title="Announcements for PIDA">
+      <link rel="alternate" type="application/atom+xml" href="http://feeds.launchpad.net/pida/latest-bugs.atom" title="Latest Bugs for PIDA">
+      <link rel="alternate" type="application/atom+xml" href="http://feeds.launchpad.net/pida/branches.atom" title="Latest Branches for PIDA">
+      <link rel="alternate" type="application/atom+xml" href="http://feeds.launchpad.net/pida/revisions.atom" title="Latest Revisions for PIDA">
+    
+
+    
+  
+  <link type="text/css" rel="stylesheet" media="screen, print" href="./PIDA in Launchpad_files/combo.css">
+
+
+    
+
+    
+      
+    
+
+    
+  
+
+  
+  
+  <script type="text/javascript">
+    var LP = {
+        cache: {},
+        links: {}
+    };
+  </script>
+
+  
+
+  <script type="text/javascript">var cookie_scope = '; Path=/; Secure; Domain=.launchpad.net';</script>
+
+   <script type="text/javascript" src="./PIDA in Launchpad_files/saved_resource(4)"></script>
+   <script type="text/javascript">
+        var raw = null;
+        if (LP.devmode) {
+           raw = 'raw';
+        }
+        YUI.GlobalConfig = {
+            combine: true,
+            comboBase: '/+combo/rev18790/?',
+            root: 'yui/',
+            filter: raw,
+            debug: false,
+            fetchCSS: false,
+            maxURLLength: 2000,
+            groups: {
+                lp: {
+                    combine: true,
+                    base: '/+combo/rev18790/?lp/',
+                    comboBase: '/+combo/rev18790/?',
+                    root: 'lp/',
+                    // comes from including lp/meta.js
+                    modules: LP_MODULES,
+                    fetchCSS: false
+                }
+            }
+        }</script>
+
+  <script type="text/javascript">
+      // we need this to create a single YUI instance all events and code
+      // talks across. All instances of YUI().use should be based off of
+      // LPJS instead.
+      var LPJS = new YUI();
+  </script>
+
+
+
+    <script id="base-layout-load-scripts" type="text/javascript">
+        //<![CDATA[
+        LPJS.use('base', 'node', 'console', 'event',
+            'oop', 'lp', 'lp.app.foldables','lp.app.sorttable',
+            'lp.app.inlinehelp', 'lp.app.links', 'lp.app.longpoll',
+            'lp.bugs.bugtask_index', 'lp.bugs.subscribers',
+            'lp.app.ellipsis', 'lp.code.branchmergeproposal.diff',
+            'lp.views.global',
+             function(Y) {
+
+            Y.on("domready", function () {
+                var global_view = new Y.lp.views.Global();
+                global_view.render();
+
+                Y.lp.app.sorttable.SortTable.init();
+                Y.lp.app.inlinehelp.init_help();
+                Y.lp.activate_collapsibles();
+                Y.lp.app.foldables.activate();
+                Y.lp.app.links.check_valid_lp_links();
+                // Longpolling will only start if
+                // LP.cache.longpoll is populated.
+                // We use Y.later to work around a Safari/Chrome 'feature':
+                // The mouse cursor stays 'busy' until all the requests started during
+                // page load are finished.  Hence we want the long poll request to start
+                // right *after* the page has loaded.
+                Y.later(0, Y.lp.app.longpoll, Y.lp.app.longpoll.setupLongPollManager);
+
+            });
+
+            Y.on('lp:context:web_link:changed', function(e) {
+                  window.location = e.new_value;
+            });
+        });
+        //]]>
+    </script>
+    <script id="base-helper-functions" type="text/javascript">
+         //<![CDATA[
+        // This code is pulled from lp.js that needs to be available on every
+        // request. Pulling here to get it outside the scope of the YUI block.
+        function setFocusByName(name) {
+            // Focus the first element matching the given name which can be focused.
+            var nodes = document.getElementsByName(name);
+            var i, node;
+            for (i = 0; i < nodes.length; i++) {
+                node = nodes[i];
+                if (node.focus) {
+                    try {
+                        // Trying to focus a hidden element throws an error in IE8.
+                        if (node.offsetHeight !== 0) {
+                            node.focus();
+                        }
+                    } catch (e) {
+                        LPJS.use('console', function(Y) {
+                            Y.log('In setFocusByName(<' +
+                                node.tagName + ' type=' + node.type + '>): ' + e);
+                        });
+                    }
+                    break;
+                }
+            }
+        }
+
+        function selectWidget(widget_name, event) {
+          if (event && (event.keyCode === 9 || event.keyCode === 13)) {
+              // Avoid firing if user is tabbing through or simply pressing
+              // enter to submit the form.
+              return;
+          }
+          document.getElementById(widget_name).checked = true;
+        }
+        //]]>
+    </script>
+
+    
+      
+    
+
+    
+  
+    
+  </head>
+
+  <body id="document" itemscope="" itemtype="http://schema.org/WebPage" class="tab-overview
+      main_side
+      public
+      yui3-skin-sam">
+          
+          
+    <div class="yui-d0">
+      <div id="locationbar" class="login-logout">
+        
+
+<div id="logincontrol"><a href="https://launchpad.net/pida/+login">Log in / Register</a></div>
+
+
+
+      </div><!--id="locationbar"-->
+
+      <div id="watermark" class="watermark-apps-portlet">
+        <div>
+          <a href="https://launchpad.net/pida"><img alt="" width="64" height="64" src="./PIDA in Launchpad_files/product-logo"></a>
+        </div>
+        <div class="wide">
+          <h2 id="watermark-heading"><a href="https://launchpad.net/pida">PIDA</a></h2>
+        </div>
+        
+  <!-- Application Menu -->
+  <ul class="facetmenu">
+    
+      <li class="overview active"><span>Overview</span></li>
+      
+      
+    
+    
+      
+      <li class="branches"><a href="https://code.launchpad.net/pida">Code</a></li>
+      
+    
+    
+      
+      <li class="bugs"><a href="https://bugs.launchpad.net/pida">Bugs</a></li>
+      
+    
+    
+      
+      <li class="specifications"><a href="https://blueprints.launchpad.net/pida">Blueprints</a></li>
+      
+    
+    
+      
+      <li class="translations"><a href="https://translations.launchpad.net/pida">Translations</a></li>
+      
+    
+    
+      
+      <li class="answers"><a href="https://answers.launchpad.net/pida">Answers</a></li>
+      
+    
+  </ul>
+
+      </div>
+
+      <div class="yui-t4">
+        <div id="maincontent" class="yui-main">
+          <div class="yui-b" dir="ltr">
+            <div class="context-publication">
+              
+              
+
+              <div id="registration" class="registering">
+                
+    Registered
+    2006-05-04
+    by
+    <a href="https://launchpad.net/~aafshar" class="sprite person">Ali Afshar</a>
+  
+              </div>
+            </div>
+
+            
+            <div id="request-notifications">
+              
+            </div>
+
+            
+              
+      <div class="top-portlet">
+        
+
+    
+
+	<div class="summary"><p>PIDA is an IDE, written in Python &amp; GTK. It aims to use the tools you wish to use, allowing optional editor (including Vim and Emacs) and most open source version control systems.</p></div>
+
+        
+
+        
+        <ul id="external-links" class="horizontal">
+          <li>
+            <a id="homepageurl-link" class="sprite external-link" rel="nofollow" href="http://pida.co.uk/">Home page</a>
+          </li>
+          <li>
+            <a class="menu-link-None sprite external-link" href="http://pida.co.uk/">Wiki</a>
+          </li>
+          <li>
+            <a class="menu-link-None sprite external-link" href="http://pida.co.uk/screenshots">Screenshots</a>
+          </li>
+          <li>
+            <a class="menu-link-None sprite external-link" href="http://code.google.com/p/pida/downloads/list">External downloads</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="yui-g">
+        <div class="yui-u first">
+          <div id="project-info" class="portlet">
+            <h2>Project information</h2>
+
+            <div class="two-column-list">
+              
+
+              <dl id="owner">
+                <dt>Maintainer:</dt>
+                <dd>
+  <span id="edit-owner">
+    <span class="yui3-activator-data-box">
+      <a href="https://launchpad.net/~pida" class="bg-image" style="background-image: url(https://launchpadlibrarian.net/5394475/pida-small-icon.png)">PIDA</a>
+    </span>
+    
+  </span>
+
+  
+
+</dd>
+              </dl>
+
+              
+
+              <dl id="driver">
+                <dt>Driver:</dt>
+                <dd>
+  <span id="edit-driver">
+    <span class="yui3-activator-data-box">
+      <a href="https://launchpad.net/~pida" class="bg-image" style="background-image: url(https://launchpadlibrarian.net/5394475/pida-small-icon.png)">PIDA</a>
+    </span>
+    
+  </span>
+
+  
+
+</dd>
+              </dl>
+            </div>
+
+            <div>
+              <dl id="licences">
+                <dt>Licence:</dt>
+                <dd>
+                  
+                    GNU GPL v2,
+                  
+                  
+                    GNU GPL v3
+                  
+                  
+                  
+                </dd>
+                
+                
+              </dl>
+            </div>
+
+            <p>
+              <a class="menu-link-rdf sprite download" href="https://launchpad.net/pida/+rdf"><abbr title="Resource Description Framework">RDF</abbr> metadata</a>
+            </p>
+
+            
+          </div>
+        </div>
+
+        <div class="yui-u">
+          <div class="portlet">
+            <h2>
+              <span class="see-all"><a class="menu-link-series sprite info" href="https://launchpad.net/pida/+series">View full history</a></span>
+              Series and milestones
+            </h2>
+
+            
+  
+  <div id="timeline-loading" class="hidden" style="display: none;">
+    <img src="./PIDA in Launchpad_files/spinner"> Loading graph...
+  </div>
+
+  <!-- Opera ignores overflow:hidden for iframe, so use scrolling=no. -->
+  <iframe id="timeline-iframe" name="timeline-iframe" class="timeline-iframe hidden" style="border: 0px; display: block;" scrolling="no" width="100%" height="216px" src="./PIDA in Launchpad_files/+timeline-graph.html"></iframe>
+  <script>
+  //<![CDATA[
+  function timeline_iframe(auto_resize, include_inactive, start, size) {
+      var timeline_url = "+timeline-graph?";
+      if (include_inactive == 'true') {
+          timeline_url += "include_inactive=true&";
+      }
+
+      if (auto_resize == 'true') {
+          timeline_url += 'resize_frame=timeline-iframe&';
+      }
+
+      start = parseInt(start);
+      size = parseInt(size);
+      if (start != NaN && start >= 0) {
+          timeline_url += "start=" + start + "&";
+      }
+      if (size != NaN && size >= 1) {
+          timeline_url += "size=" + size + "&";
+      }
+      LPJS.use('node', 'lp.registry.timeline', function(Y) {
+          if (!Y.lp.registry.timeline.isCanvasSupported()) {
+              return;
+          }
+          var loading_el = Y.one('#timeline-loading');
+          loading_el.setStyle('display', 'block');
+          var iframe = Y.one('#timeline-iframe');
+          iframe.set('src', timeline_url);
+          Y.on('load', function(e) {
+              loading_el.setStyle('display', 'none');
+              iframe.setStyle('display', 'block');
+          }, iframe);
+      });
+  }
+  //]]>
+  </script>
+  <script>
+      timeline_iframe(
+        'None',
+        'None',
+        'None',
+        'None'
+        );
+      </script>
+
+
+            <p id="development-focus">
+              <a href="https://launchpad.net/pida/trunk">trunk series</a>
+                is the current focus of development.
+              
+            </p>
+
+            <ul class="horizontal">
+              
+              <li>
+                <a class="menu-link-milestones sprite info" href="https://launchpad.net/pida/+milestones">View milestones</a>
+              </li>
+              
+              
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="yui-g">
+        <div class="yui-u first">
+          
+          <div id="code-info" class="portlet">
+            <h2>
+              <span class="see-all"><a href="https://code.launchpad.net/pida">
+                All code</a></span>
+              Code
+            </h2>
+
+            
+
+            <div class="two-column-list">
+              <dl id="product-vcs">
+                <dt>Version control system:</dt>
+                <dd>Bazaar</dd>
+              </dl>
+
+              <dl id="product-languages">
+                <dt>Programming languages:</dt>
+                <dd><span id="edit-programminglang" class="nowrap">
+<span class="yui3-editable_text-text" style="">
+    Python
+</span>
+  
+</span>
+
+
+</dd>
+              </dl>
+            </div>
+          </div>
+
+          
+
+          
+          <div>
+
+<div class="portlet" id="portlet-packages">
+  
+  <h2>
+    <span class="see-all"><a href="https://launchpad.net/pida/+packages">
+      All packages</a></span>
+    Packages in Distributions
+  </h2>
+
+    <ul>
+      
+        <li>
+          <a class="sprite package-source" href="https://launchpad.net/ubuntu/xenial/+source/pida">pida source package in Xenial</a>
+          <br>
+          <span class="registered">
+          <strong>Version
+            0.5.1-6</strong>
+          uploaded on 2011-07-30
+          </span>
+        </li>
+      
+      
+        <li>
+          <a class="sprite package-source" href="https://launchpad.net/ubuntu/trusty/+source/pida">pida source package in Trusty</a>
+          <br>
+          <span class="registered">
+          <strong>Version
+            0.5.1-6</strong>
+          uploaded on 2011-07-30
+          </span>
+        </li>
+      
+      
+        <li>
+          <a class="sprite package-source" href="https://launchpad.net/debian/squeeze/+source/pida">pida source package in Squeeze</a>
+          <br>
+          <span class="registered">
+          <strong>Version
+            0.5.1-5.2</strong>
+          uploaded on 2010-07-18
+          </span>
+        </li>
+      
+      
+        <li>
+          <a class="sprite package-source" href="https://launchpad.net/ubuntu/precise/+source/pida">pida source package in Precise</a>
+          <br>
+          <span class="registered">
+          <strong>Version
+            0.5.1-6</strong>
+          uploaded on 2011-07-30
+          </span>
+        </li>
+      
+    </ul>
+  
+</div>
+
+</div>
+        </div>
+
+        <div class="yui-u">
+          
+
+          
+
+          <div>
+</div>
+
+          <div>
+  
+
+</div>
+        </div>
+        <div class="yui-u">
+          <div id="structural-subscription-content-box"></div>
+        </div>
+
+      </div>
+    
+            
+            
+          </div><!-- yui-b -->
+        </div><!-- yui-main -->
+
+        
+          <div id="side-portlets" class="yui-b side">
+            
+      
+
+      <div id="involvement" class="portlet">
+  <h2>Get Involved</h2>
+
+  <ul class="involvement">
+    <li>
+      <a class="menu-link-help_translate sprite translations" href="https://translations.launchpad.net/pida">Help translate</a>
+    </li>
+    
+      <li class="disabled" title="Launchpad needs to know where the user can report a bug">
+        <div style="padding: 0.3em 0 0.3em 0.3em">
+          <div style="display: inline-block" class="sprite warning-icon action-icon">warning</div>
+
+          <div style="height: 1.2em; float: right">
+            <img src="./PIDA in Launchpad_files/gray-arrow-right.png" style="top: 50%; bottom: 50%; margin-top: -5px;
+                       position: relative;
+                       height: 9px; width: 14px; padding: 0">
+          </div>
+
+          <span>Report a bug</span>
+        </div>
+      </li>
+    
+    
+      <li class="disabled" title="Launchpad needs to know where the user can ask a question">
+        <div style="padding: 0.3em 0 0.3em 0.3em">
+          <div style="display: inline-block" class="sprite warning-icon action-icon">warning</div>
+
+          <div style="height: 1.2em; float: right">
+            <img src="./PIDA in Launchpad_files/gray-arrow-right.png" style="top: 50%; bottom: 50%; margin-top: -5px;
+                       position: relative;
+                       height: 9px; width: 14px; padding: 0">
+          </div>
+
+          <span>Ask a question</span>
+        </div>
+      </li>
+    
+  </ul>
+
+  
+    
+    
+  
+
+  
+</div>
+
+
+      <div id="downloads" class="top-portlet downloads">
+        <h2>Downloads</h2>
+
+        
+
+        <p class="alternate">
+          
+           
+             PIDA
+             does not have any download files registered with Launchpad.
+           
+        </p>
+      </div>
+
+      
+
+
+
+
+
+    
+          </div><!-- yui-b side -->
+        
+      </div><!-- yui-t4 -->
+
+      
+  <div id="footer" class="footer">
+    <div class="lp-arcana">
+        <div class="lp-branding">
+          <a href="https://launchpad.net/"><img src="./PIDA in Launchpad_files/launchpad-logo-and-name-hierarchy.png" alt="Launchpad"></a>
+          &nbsp;•&nbsp;
+          <a href="https://launchpad.net/+tour">Take the tour</a>
+          &nbsp;•&nbsp;
+          <a href="https://help.launchpad.net/">Read the guide</a>
+          &nbsp;
+          <form id="globalsearch" method="get" accept-charset="UTF-8" action="https://launchpad.net/+search">
+            <input type="search" id="search-text" name="field.text">
+            <input type="image" src="./PIDA in Launchpad_files/search" style="vertical-align:5%" alt="Search Launchpad">
+          </form>
+        </div>
+        
+  
+
+    </div>
+
+    <div class="colophon">
+      © 2004-2018
+      <a href="http://canonical.com/">Canonical&nbsp;Ltd.</a>
+      &nbsp;•&nbsp;
+      <a href="https://launchpad.net/legal">Terms of use</a>
+      &nbsp;•&nbsp;
+      <a href="https://www.ubuntu.com/legal/dataprivacy">Data privacy</a>
+      &nbsp;•&nbsp;
+      <a href="https://launchpad.net/feedback">Contact Launchpad Support</a>
+      
+      &nbsp;•&nbsp;
+      <a href="http://blog.launchpad.net/">Blog</a>
+      
+	&nbsp;•&nbsp;
+	<a href="http://www.canonical.com/about-canonical/careers">Careers</a>
+      
+      &nbsp;•&nbsp;
+      <a href="https://twitter.com/launchpadstatus">System status</a>
+      <span id="lp-version">
+      &nbsp;•&nbsp;
+        r18790
+        
+        
+        (<a href="https://dev.launchpad.net/">Get the code!</a>)
+      </span>
+    </div>
+  </div>
+
+    </div><!-- yui-d0-->
+
+    
+  
+  
+  <script id="json-cache-script">LP.cache = {"target_info": {"url": "https://launchpad.net/pida", "title": "PIDA"}, "related_features": {}, "administratedTeams": [], "importances": ["Unknown", "Undecided", "Critical", "High", "Medium", "Low", "Wishlist"], "context": {"license_info": null, "remote_product": null, "recipes_collection_link": "https://launchpad.net/api/devel/pida/recipes", "development_focus_link": "https://launchpad.net/api/devel/pida/trunk", "bug_supervisor_link": "https://launchpad.net/api/devel/~pida", "private": false, "registrant_link": "https://launchpad.net/api/devel/~aafshar", "official_bug_tags": [], "active_milestones_collection_link": "https://launchpad.net/api/devel/pida/active_milestones", "commercial_subscription_is_due": false, "all_specifications_collection_link": "https://launchpad.net/api/devel/pida/all_specifications", "translation_focus_link": null, "licenses": ["GNU GPL v2", "GNU GPL v3"], "all_milestones_collection_link": "https://launchpad.net/api/devel/pida/all_milestones", "bug_reported_acknowledgement": null, "display_name": "PIDA", "wiki_url": "http://pida.co.uk/", "title": "PIDA", "homepage_url": "http://pida.co.uk/", "download_url": "http://code.google.com/p/pida/downloads/list", "is_permitted": "tag:launchpad.net:2008:redacted", "vcs": "Bazaar", "reviewer_whiteboard": "tag:launchpad.net:2008:redacted", "branch_sharing_policy": "Public", "self_link": "https://launchpad.net/api/devel/pida", "information_type": "Public", "specification_sharing_policy": "Public", "resource_type_link": "https://launchpad.net/api/devel/#project", "programming_language": "Python", "translations_usage": "Launchpad", "description": null, "translationpermission": "Open", "project_reviewed": "tag:launchpad.net:2008:redacted", "valid_specifications_collection_link": "https://launchpad.net/api/devel/pida/valid_specifications", "brand_link": "https://launchpad.net/api/devel/pida/brand", "sourceforge_project": null, "http_etag": "\"862181cfe7087fba7bd2973e29c9a75b88d473eb-9ae3a496c0b67a92b2811f9f149c1900833e9b97\"", "project_group_link": null, "bug_reporting_guidelines": null, "active": true, "bug_tracker_link": "https://launchpad.net/api/devel/bugs/bugtrackers/pida-trac", "name": "pida", "license_approved": "tag:launchpad.net:2008:redacted", "driver_link": "https://launchpad.net/api/devel/~pida", "freshmeat_project": null, "screenshots_url": "http://pida.co.uk/screenshots", "web_link": "https://launchpad.net/pida", "summary": "PIDA is an IDE, written in Python \u0026 GTK. It aims to use the tools you wish to use, allowing optional editor (including Vim and Emacs) and most open source version control systems.", "logo_link": "https://launchpad.net/api/devel/pida/logo", "owner_link": "https://launchpad.net/api/devel/~pida", "qualifies_for_free_hosting": true, "translationgroup_link": null, "bug_sharing_policy": "Public", "releases_collection_link": "https://launchpad.net/api/devel/pida/releases", "date_created": "2006-05-04T07:46:53.695551+00:00", "series_collection_link": "https://launchpad.net/api/devel/pida/series", "commercial_subscription_link": null, "icon_link": "https://launchpad.net/api/devel/pida/icon"}, "information_types": ["Public", "Public Security", "Private Security", "Private", "Proprietary", "Embargoed"], "team_membership_policy_data": [{"style": "", "help": "", "value": "RESTRICTED", "name": "Restricted Team", "disabled": false, "description_css_class": "choice-description", "description": ""}, {"style": "", "help": "", "value": "MODERATED", "name": "Moderated Team", "disabled": false, "description_css_class": "choice-description", "description": ""}], "statuses": ["New", "Incomplete", "Opinion", "Invalid", "Won't Fix", "Expired", "Confirmed", "Triaged", "In Progress", "Fix Committed", "Fix Released", "Unknown"]};</script>
+
+    
+  
+
+    
+  
+
+
+  <!--
+    Facet name: overview
+    Page type: main_side
+    Has global search: True
+    Has application tabs: True
+    Has side portlets: True
+
+    At least 65 queries/external actions issued in 0.66 seconds
+
+    Features: {'app.mainsite_only.canonical_url': None, 'markdown.enabled': None, 'baselayout.careers_link.disabled': None, 'hard_timeout': u'5000', 'profiling.enabled': None, 'js.yui_version': None, 'visible_render_time': None}
+
+    r18790
+
+    -->
+
+
+
+</body></html>

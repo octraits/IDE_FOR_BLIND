@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0024)http://pygments.org/faq/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=">
+    
+    <title>Pygments FAQ — Pygments</title>
+    
+    <link rel="stylesheet" href="./Pygments FAQ — Pygments_files/pygments14.css" type="text/css">
+    <link rel="stylesheet" href="./Pygments FAQ — Pygments_files/pygments.css" type="text/css">
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '/',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="./Pygments FAQ — Pygments_files/jquery.js.download"></script>
+    <script type="text/javascript" src="./Pygments FAQ — Pygments_files/underscore.js.download"></script>
+    <script type="text/javascript" src="./Pygments FAQ — Pygments_files/doctools.js.download"></script>
+    
+    
+    <link rel="shortcut icon" href="http://pygments.org/_static/favicon.ico">
+    <link rel="top" title="Pygments documentation" href="http://pygments.org/">
+    <link href="./Pygments FAQ — Pygments_files/css" rel="stylesheet" type="text/css">
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+  </head>
+  <body role="document">
+    <div class="outerwrapper">
+      <div class="pageheader">
+        <ul>
+          <li><a href="http://pygments.org/">Home</a></li>
+          <li><a href="http://pygments.org/demo/">Demo</a></li>
+          <li><a href="http://pygments.org/languages/">Languages</a></li>
+          <li><a href="http://pygments.org/faq/">FAQ</a></li>
+          <li><a href="http://pygments.org/download/">Get it</a></li>
+          <li><a href="http://pygments.org/docs/">Docs</a></li>
+        </ul>
+        <div>
+          <a href="http://pygments.org/">
+            <img src="./Pygments FAQ — Pygments_files/logo.png" alt="Pygments logo">
+          </a>
+       </div>
+     </div>
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper" style="top: 1302px;">
+  <h3><a href="http://pygments.org/">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="http://pygments.org/faq/#">Pygments FAQ</a><ul>
+<li><a class="reference internal" href="http://pygments.org/faq/#what-is-pygments">What is Pygments?</a></li>
+<li><a class="reference internal" href="http://pygments.org/faq/#where-does-the-name-pygments-come-from">Where does the name Pygments come from?</a></li>
+<li><a class="reference internal" href="http://pygments.org/faq/#what-are-the-system-requirements">What are the system requirements?</a></li>
+<li><a class="reference internal" href="http://pygments.org/faq/#how-can-i-use-pygments">How can I use Pygments?</a></li>
+<li><a class="reference internal" href="http://pygments.org/faq/#how-do-i-make-a-new-style">How do I make a new style?</a></li>
+<li><a class="reference internal" href="http://pygments.org/faq/#how-can-i-report-a-bug-or-suggest-a-feature">How can I report a bug or suggest a feature?</a></li>
+<li><a class="reference internal" href="http://pygments.org/faq/#i-want-this-support-for-this-language">I want this support for this language!</a></li>
+<li><a class="reference internal" href="http://pygments.org/faq/#can-i-use-pygments-for-programming-language-processing">Can I use Pygments for programming language processing?</a></li>
+<li><a class="reference internal" href="http://pygments.org/faq/#who-uses-pygments">Who uses Pygments?</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="http://pygments.org/search/" method="get">
+      <input type="text" name="q">
+      <input type="submit" value="Go">
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pygments-faq">
+<h1>Pygments FAQ<a class="headerlink" href="http://pygments.org/faq/#pygments-faq" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-is-pygments">
+<h2>What is Pygments?<a class="headerlink" href="http://pygments.org/faq/#what-is-pygments" title="Permalink to this headline">¶</a></h2>
+<p>Pygments is a syntax highlighting engine written in Python. That means, it will
+take source code (or other markup) in a supported language and output a
+processed version (in different formats) containing syntax highlighting markup.</p>
+<p>Its features include:</p>
+<ul class="simple">
+<li>a wide range of common <a class="reference internal" href="http://pygments.org/languages/"><em>languages and markup formats</em></a> is supported</li>
+<li>new languages and formats are added easily</li>
+<li>a number of output formats is available, including:<ul>
+<li>HTML</li>
+<li>ANSI sequences (console output)</li>
+<li>LaTeX</li>
+<li>RTF</li>
+</ul>
+</li>
+<li>it is usable as a command-line tool and as a library</li>
+<li>parsing and formatting is fast</li>
+</ul>
+<p>Pygments is licensed under the BSD license.</p>
+</div>
+<div class="section" id="where-does-the-name-pygments-come-from">
+<h2>Where does the name Pygments come from?<a class="headerlink" href="http://pygments.org/faq/#where-does-the-name-pygments-come-from" title="Permalink to this headline">¶</a></h2>
+<p><em>Py</em> of course stands for Python, while <em>pigments</em> are used for coloring paint,
+and in this case, source code!</p>
+</div>
+<div class="section" id="what-are-the-system-requirements">
+<h2>What are the system requirements?<a class="headerlink" href="http://pygments.org/faq/#what-are-the-system-requirements" title="Permalink to this headline">¶</a></h2>
+<p>Pygments only needs a standard Python install, version 2.6 or higher or version
+3.3 or higher for Python 3. No additional libraries are needed.</p>
+</div>
+<div class="section" id="how-can-i-use-pygments">
+<h2>How can I use Pygments?<a class="headerlink" href="http://pygments.org/faq/#how-can-i-use-pygments" title="Permalink to this headline">¶</a></h2>
+<p>Pygments is usable as a command-line tool as well as a library.</p>
+<p>From the command-line, usage looks like this (assuming the pygmentize script is
+properly installed):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>pygmentize -f html /path/to/file.py
+</pre></div>
+</div>
+<p>This will print a HTML-highlighted version of /path/to/file.py to standard output.</p>
+<p>For a complete help, please run <tt class="docutils literal"><span class="pre">pygmentize</span> <span class="pre">-h</span></tt>.</p>
+<p>Usage as a library is thoroughly demonstrated in the Documentation section.</p>
+</div>
+<div class="section" id="how-do-i-make-a-new-style">
+<h2>How do I make a new style?<a class="headerlink" href="http://pygments.org/faq/#how-do-i-make-a-new-style" title="Permalink to this headline">¶</a></h2>
+<p>Please see the <a class="reference internal" href="http://pygments.org/docs/styles/"><em>documentation on styles</em></a>.</p>
+</div>
+<div class="section" id="how-can-i-report-a-bug-or-suggest-a-feature">
+<h2>How can I report a bug or suggest a feature?<a class="headerlink" href="http://pygments.org/faq/#how-can-i-report-a-bug-or-suggest-a-feature" title="Permalink to this headline">¶</a></h2>
+<p>Please report bugs and feature wishes in the tracker at Bitbucket.</p>
+<p>You can also e-mail the author or use IRC, see the contact details.</p>
+</div>
+<div class="section" id="i-want-this-support-for-this-language">
+<h2>I want this support for this language!<a class="headerlink" href="http://pygments.org/faq/#i-want-this-support-for-this-language" title="Permalink to this headline">¶</a></h2>
+<p>Instead of waiting for others to include language support, why not write it
+yourself? All you have to know is <a class="reference internal" href="http://pygments.org/docs/lexerdevelopment/"><em>outlined in the docs</em></a>.</p>
+</div>
+<div class="section" id="can-i-use-pygments-for-programming-language-processing">
+<h2>Can I use Pygments for programming language processing?<a class="headerlink" href="http://pygments.org/faq/#can-i-use-pygments-for-programming-language-processing" title="Permalink to this headline">¶</a></h2>
+<p>The Pygments lexing machinery is quite powerful can be used to build lexers for
+basically all languages. However, parsing them is not possible, though some
+lexers go some steps in this direction in order to e.g. highlight function names
+differently.</p>
+<p>Also, error reporting is not the scope of Pygments. It focuses on correctly
+highlighting syntactically valid documents, not finding and compensating errors.</p>
+</div>
+<div class="section" id="who-uses-pygments">
+<h2>Who uses Pygments?<a class="headerlink" href="http://pygments.org/faq/#who-uses-pygments" title="Permalink to this headline">¶</a></h2>
+<p>This is an (incomplete) list of projects and sites known to use the Pygments highlighter.</p>
+<ul class="simple">
+<li><a class="reference external" href="http://en.wikipedia.org/">Wikipedia</a></li>
+<li><a class="reference external" href="http://bitbucket.org/">BitBucket</a>, a Mercurial and Git hosting site</li>
+<li><a class="reference external" href="http://sphinx.pocoo.org/">The Sphinx documentation builder</a>, for embedded source examples</li>
+<li><a class="reference external" href="http://code.google.com/p/rst2pdf/">rst2pdf</a>, a reStructuredText to PDF converter</li>
+<li><a class="reference external" href="http://codecov.io/">Codecov</a>, a code coverage CI service</li>
+<li><a class="reference external" href="http://trac.edgewall.org/">Trac</a>, the universal project management tool</li>
+<li><a class="reference external" href="http://www.methods.co.nz/asciidoc/">AsciiDoc</a>, a text-based documentation generator</li>
+<li><a class="reference external" href="http://code.activestate.com/">ActiveState Code</a>, the Python Cookbook successor</li>
+<li><a class="reference external" href="http://viewvc.org/">ViewVC</a>, a web-based version control repository browser</li>
+<li><a class="reference external" href="http://repo.or.cz/w/bzrfruit.git">BzrFruit</a>, a Bazaar branch viewer</li>
+<li><a class="reference external" href="http://bazaar-vcs.org/QBzr">QBzr</a>, a cross-platform Qt-based GUI front end for Bazaar</li>
+<li><a class="reference external" href="http://www.review-board.org/">Review Board</a>, a collaborative code reviewing tool</li>
+<li><a class="reference external" href="http://code.google.com/p/diamanda/">Diamanda</a>, a Django powered wiki system with support for Pygments</li>
+<li><a class="reference external" href="http://progopedia.ru/">Progopedia</a> (<a class="reference external" href="http://progopedia.com/">English</a>),
+an encyclopedia of programming languages</li>
+<li><a class="reference external" href="http://r1chardj0n3s.googlepages.com/bruce">Bruce</a>, a reStructuredText presentation tool</li>
+<li><a class="reference external" href="http://pida.co.uk/">PIDA</a>, a universal IDE written in Python</li>
+<li><a class="reference external" href="http://www.noiseforfree.com/bpython/">BPython</a>, a curses-based intelligent Python shell</li>
+<li><a class="reference external" href="http://pypi.python.org/pypi/pudb">PuDB</a>, a console Python debugger</li>
+<li><a class="reference external" href="http://www.xwiki.org/">XWiki</a>, a wiki-based development framework in Java, using Jython</li>
+<li><a class="reference external" href="http://ananelson.com/software/roux/">roux</a>, a script for running R scripts
+and creating beautiful output including graphs</li>
+<li><a class="reference external" href="http://hurl.it/">hurl</a>, a web service for making HTTP requests</li>
+<li><a class="reference external" href="http://colinbarnette.net/projects/wxHTMLPygmentizer">wxHTMLPygmentizer</a> is
+a GUI utility, used to make code-colorization easier</li>
+<li><a class="reference external" href="http://code.google.com/p/postmarkup/">Postmarkup</a>, a BBCode to XHTML generator</li>
+<li><a class="reference external" href="http://blog.mirotin.net/?page_id=49">WpPygments</a>, and <a class="reference external" href="https://github.com/capynet/WPygments">WPygments</a>, highlighter plugins for WordPress</li>
+<li><a class="reference external" href="http://siafoo.net/">Siafoo</a>, a tool for sharing and storing useful code and programming experience</li>
+<li><a class="reference external" href="http://www.dsource.org/">D source</a>, a community for the D programming language</li>
+<li><a class="reference external" href="http://dpaste.com/">dpaste.com</a>, another Django pastebin</li>
+<li><a class="reference external" href="http://www.djangosnippets.org/">Django snippets</a>, a pastebin for Django code</li>
+<li><a class="reference external" href="http://www.fayaa.com/code/">Fayaa</a>, a Chinese pastebin</li>
+<li><a class="reference external" href="http://incollo.com/">Incollo.com</a>, a free collaborative debugging tool</li>
+<li><a class="reference external" href="http://p.boxnet.eu/">PasteBox</a>, a pastebin focused on privacy</li>
+<li><a class="reference external" href="http://www.hilite.me/">hilite.me</a>, a site to highlight code snippets</li>
+<li><a class="reference external" href="http://patx.me/paste">patx.me</a>, a pastebin</li>
+<li><a class="reference external" href="https://github.com/richsmith/fluidic">Fluidic</a>, an experiment in
+integrating shells with a GUI</li>
+<li><a class="reference external" href="https://github.com/tmm1/pygments.rb">pygments.rb</a>, a pygments wrapper for Ruby</li>
+<li><a class="reference external" href="https://github.com/bfontaine/clygments">Clygments</a>, a pygments wrapper for
+Clojure</li>
+<li><a class="reference external" href="https://github.com/capynet/PHPygments">PHPygments</a>, a pygments wrapper for PHP</li>
+</ul>
+<p>If you have a project or web site using Pygments, drop me a line, and I’ll add a
+link here.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+      <div class="footer" role="contentinfo">
+        © Copyright 2014, Georg Brandl and Pygments contributors.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> . <br>
+        Pygments logo created by <a href="http://dribbble.com/joelunger">Joel Unger</a>.
+        Backgrounds from <a href="http://subtlepatterns.com/">subtlepatterns.com</a>.
+      </div>
+    </div> 
+  
+</body></html>

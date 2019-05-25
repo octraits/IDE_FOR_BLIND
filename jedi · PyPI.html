@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)https://pypi.org/project/jedi/0.8.1/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="defaultLanguage" content="en">
+    <meta name="availableLanguages" content="en">
+
+    
+
+    <title>jedi · PyPI</title>
+    <meta name="description" content="An autocompletion tool for Python that can be used for text editors.">
+
+    <link rel="stylesheet" href="./jedi · PyPI_files/warehouse.06bc040b.css">
+    <link rel="stylesheet" href="./jedi · PyPI_files/fontawesome.4b73fd92.css">
+    <link rel="stylesheet" href="./jedi · PyPI_files/regular.19624371.css">
+    <link rel="stylesheet" href="./jedi · PyPI_files/solid.f478cfb1.css">
+    <link rel="stylesheet" href="./jedi · PyPI_files/brands.1ea560bf.css">
+    <link rel="stylesheet" href="./jedi · PyPI_files/css">
+    <noscript>
+      <link rel="stylesheet" href="/static/css/noscript.ea8974d1.css">
+    </noscript>
+
+    
+
+    <link rel="icon" href="https://pypi.org/static/images/favicon.6a76275d.ico" type="image/x-icon">
+
+    <link rel="alternate" type="application/rss+xml" title="RSS: 40 latest updates" href="https://pypi.org/rss/updates.xml">
+    <link rel="alternate" type="application/rss+xml" title="RSS: 40 newest packages" href="https://pypi.org/rss/packages.xml">
+    
+    <link rel="canonical" href="https://pypi.org/project/jedi/">
+    
+
+    <meta property="og:url" content="https://pypi.org/project/jedi/0.8.1/">
+    <meta property="og:site_name" content="PyPI">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://pypi.org/static/images/twitter.c0030826.jpg">
+    <meta property="og:title" content="jedi">
+    <meta property="og:description" content="An autocompletion tool for Python that can be used for text editors.">
+
+    <link rel="search" type="application/opensearchdescription+xml" title="PyPI" href="https://pypi.org/opensearch.xml">
+
+    
+    <script src="./jedi · PyPI_files/lib.5843e086683830162775f76fdb46b608be2a29cf.js.download"></script><script type="text/javascript" async="" src="./jedi · PyPI_files/analytics.js.download"></script><script src="./jedi · PyPI_files/raven.min.js.download" integrity="sha384-D6LXy67EIC102DTuqypxwQsTHgiatlbvg7q/1YAWFb6lRyZ1lIZ6bGDsX7jxHNKA" crossorigin="anonymous">
+    </script>
+    
+    <script async="" data-ga-id="UA-55961911-1" data-sentry-frontend-dsn="https://3a67b35c9dc248a191d761410b095861@sentry.io/1231155" src="./jedi · PyPI_files/warehouse.b56a7115.js.download">
+    </script>
+    
+    
+    <script async="" src="./jedi · PyPI_files/js"></script>
+    <script defer="" src="./jedi · PyPI_files/insights.js.download"></script>
+  </head>
+
+  <body data-controller="viewport-toggle" class="with-sticky" style="padding-top: 64px;">
+    
+
+    <!-- Accessibility: this link should always be the first piece of content inside the body-->
+    <a href="https://pypi.org/project/jedi/0.8.1/#content" class="skip-to-content">Skip to main content</a>
+
+    <button class="button button--primary button--switch-to-mobile hidden" data-target="viewport-toggle.switchToMobile" data-action="viewport-toggle#switchToMobile">
+      Switch to mobile version
+    </button>
+
+    <section id="sticky-notifications" class="stick-to-top js-stick-to-top">
+      <!-- Add browser warning. Will show for ie9 and below -->
+      <!--[if IE]>
+      <div class="notification-bar notification-bar--danger">
+        <span class="notification-bar__icon">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          <span class="sr-only">Warning:</span>
+        </span>
+        <span class="notification-bar__message">You are using an unsupported browser, upgrade to a newer version.</span>
+      </div>
+      <![endif]-->
+      
+      <div class="notification-bar notification-bar--survey">
+        <span class="notification-bar__icon">
+          <i class="fa fa-chart-line" aria-hidden="true"></i>
+        </span>
+        <span class="notification-bar__message">Join the official <b>Python Developers Survey 2018</b> and win valuable prizes:
+          <a href="https://surveys.jetbrains.com/s3/c19-python-developers-survey-2018" class="button button--dark button--small button--primary" target="_blank" rel="noopener">Start
+            the survey!</a></span>
+      </div>
+      
+      <noscript>
+        <div class="notification-bar notification-bar--danger">
+          
+          <span class="notification-bar__icon">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            <span class="sr-only">Warning:</span>
+          </span>
+          <span class="notification-bar__message">Some features may not work without JavaScript. Please try enabling it
+            if you encounter problems.</span>
+        </div>
+      </noscript>
+    </section>
+
+    
+      <div data-html-include="/_includes/flash-messages/">
+
+
+
+</div>
+    
+
+    
+
+    
+
+    <header class="site-header ">
+      <div class="site-container">
+        <div class="split-layout">
+          
+          <div class="split-layout">
+            <div>
+              <a class="site-header__logo" href="https://pypi.org/">
+                <img alt="PyPI" src="./jedi · PyPI_files/logo-small.6eef541e.svg">
+              </a>
+            </div>
+
+            <form class="search-form search-form--primary" action="https://pypi.org/search/">
+              <div role="search">
+                <label for="search" class="sr-only">Search PyPI</label>
+                <input id="search" class="search-form__search" type="text" name="q" placeholder="Search projects" value="">
+                
+                <button type="submit" class="search-form__button">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                  <span class="sr-only">Search</span>
+                </button>
+              </div>
+            </form>
+          </div>
+          
+
+          <div data-html-include="/_includes/current-user-indicator/">
+    
+    <nav id="user-indicator" class="horizontal-menu horizontal-menu--light horizontal-menu--tall" aria-label="Main navigation">
+  <a class="horizontal-menu__link horizontal-menu__link--remove-on-mobile" href="https://pypi.org/help/">Help</a>
+  <a class="horizontal-menu__link horizontal-menu__link--remove-on-mobile" href="https://donate.pypi.org/">Donate</a>
+  <a class="horizontal-menu__link" href="https://pypi.org/account/login/">Log in</a>
+  <a class="horizontal-menu__link" href="https://pypi.org/account/register/">Register</a>
+</nav>
+  </div>
+        </div>
+      </div>
+    </header>
+
+    
+    <section class="mobile-search">
+      <form class="search-form search-form--fullwidth" action="https://pypi.org/search/">
+        <div role="search">
+          <label for="mobile-search" class="sr-only">Search PyPI</label>
+          <input id="mobile-search" class="search-form__search" type="text" name="q" placeholder="Search projects" value="">
+          
+          <button type="submit" class="search-form__button">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <span class="sr-only">Search</span>
+          </button>
+          
+        </div>
+      </form>
+    </section>
+    
+
+    <main id="content">
+      
+<section class="banner">
+  <div class="package-header">
+    <div class="package-header__left">
+      <h1 class="package-header__name">
+        jedi 0.8.1
+      </h1>
+
+      
+        
+          
+        
+      <p class="package-header__pip-instructions">
+        <span id="pip-command">pip install jedi==0.8.1</span>
+        <button class="-js-copy-pip-command tooltipped tooltipped-s" data-clipboard-target="#pip-command" aria-label="Copy to clipboard" data-original-label="Copy to clipboard">
+          <i class="fa fa-copy" aria-hidden="true"></i>
+          <span class="sr-only">Copy PIP instructions<span>
+        </span></span></button>
+      </p>
+      
+    </div>
+
+    <div class="package-header__right">
+      
+      <a class="status-badge status-badge--bad" href="https://pypi.org/project/jedi/">Newer version available (0.13.1)</a>
+      
+      <p class="package-header__date">Last released: <time class="-js-relative-time" datetime="2015-01-05T12:18:10+0000">
+  Jan 5, 2015
+</time></p>
+    </div>
+  </div>
+</section>
+
+<section class="horizontal-section horizontal-section--grey horizontal-section--thin">
+  <div class="site-container">
+    <div class="split-layout split-layout--middle package-description">
+    
+      <p class="package-description__summary">An autocompletion tool for Python that can be used for text editors.</p>
+    
+    <div data-html-include="/_includes/edit-project-button/jedi"></div>
+    </div>
+  </div>
+</section>
+
+<section data-controller="project-tabs" data-project-tabs-content="description">
+  <div class="tabs-container">
+    <div class="vertical-tabs">
+      <div class="vertical-tabs__tabs">
+        <div class="sidebar-section">
+          <h3 class="sidebar-section__title">Navigation</h3>
+            <nav role="tablist">
+              <a id="description-tab" data-target="project-tabs.tab" data-action="project-tabs#onTabClick" class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--is-active" href="https://pypi.org/project/jedi/0.8.1/#description" role="tab">
+                <i class="fa fa-align-left" aria-hidden="true"></i>
+                Project description
+              </a>
+              <a id="history-tab" data-target="project-tabs.tab" data-action="project-tabs#onTabClick" class="vertical-tabs__tab vertical-tabs__tab--with-icon" href="https://pypi.org/project/jedi/0.8.1/#history" role="tab">
+                <i class="fa fa-history" aria-hidden="true"></i>
+                Release history
+              </a>
+              
+                <a id="files-tab" data-target="project-tabs.tab" data-action="project-tabs#onTabClick" class="vertical-tabs__tab vertical-tabs__tab--with-icon" href="https://pypi.org/project/jedi/0.8.1/#files" role="tab">
+                  <i class="fa fa-download" aria-hidden="true"></i>
+                  Download files
+                </a>
+              
+            </nav>
+        </div>
+        
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Project links</h3>
+  
+  
+  <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed" href="https://github.com/davidhalter/jedi" rel="nofollow">
+    
+    
+
+
+  
+
+
+<i class="fab fa-github" aria-hidden="true"></i>Homepage
+  </a>
+  
+  
+  
+  
+</div>
+
+
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Statistics</h3>
+  
+  <div class="github-repo-info" data-url="https://api.github.com/repos/davidhalter/jedi">
+    <em>GitHub statistics:</em>
+    <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed github-repo-info__item" data-key="html_url" data-attr="href" data-supplement="/stargazers" rel="noopener" target="_blank" href="https://github.com/davidhalter/jedi/stargazers">
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <strong>Stars: </strong>
+      <span class="github-repo-info__item" data-key="stargazers_count">3,515</span>
+    </a>
+    <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed github-repo-info__item" data-key="html_url" data-attr="href" data-supplement="/network" rel="noopener" target="_blank" href="https://github.com/davidhalter/jedi/network">
+      <i class="fa fa-code-branch" aria-hidden="true"></i>
+      <strong>Forks: </strong>
+      <span class="github-repo-info__item" data-key="forks_count">308</span>
+    </a>
+    <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed github-repo-info__item" data-key="html_url" data-attr="href" data-supplement="/issues" rel="noopener" target="_blank" href="https://github.com/davidhalter/jedi/issues">
+      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+      <strong>Open issues/PRs: </strong>
+      <span class="github-repo-info__item" data-key="open_issues_count">120</span>
+    </a>
+  </div>
+  
+  <p>View statistics for this project via <a href="https://libraries.io/pypi/jedi">Libraries.io</a>, or by using
+    <a href="https://packaging.python.org/guides/analyzing-pypi-package-downloads/">Google
+      BigQuery</a></p>
+</div>
+
+
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Meta</h3>
+  
+  <p><strong>License:</strong> MIT License (MIT)</p>
+  
+  
+    <p><strong>Author:</strong> <a href="mailto:davidhalter88@gmail.com">David Halter</a></p>
+  
+  
+  
+  <p class="tags">
+    <i class="fa fa-tags" aria-hidden="true"></i>
+    <span class="sr-only">Tags:</span>
+    
+    <span class="package-keyword">
+      python,
+    </span>
+    
+    <span class="package-keyword">
+      completion,
+    </span>
+    
+    <span class="package-keyword">
+      refactoring,
+    </span>
+    
+    <span class="package-keyword">
+      vim
+    </span>
+    
+  </p>
+  
+  
+</div>
+
+
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Maintainers</h3>
+  
+    
+    <span class="sidebar-section__maintainer">
+      <a href="https://pypi.org/user/David.Halter/" aria-label="David.Halter" class="sidebar-section__user-gravatar">
+        <img src="./jedi · PyPI_files/68747470733a2f2f7365637572652e67726176617461722e636f6d2f6176617461722f34316631633064376535636465343665646130646236313062303933333631333f73697a653d3530" height="50" width="50" alt="Avatar for David.Halter from gravatar.com" title="Avatar for David.Halter from gravatar.com">
+      </a>
+      <a href="https://pypi.org/user/David.Halter/" class="sidebar-section__user-gravatar-text">
+        David.Halter
+      </a>
+    </span>
+  
+</div>
+
+
+<div class="sidebar-section classifiers">
+  <h3>Classifiers</h3>
+  <dl>
+    
+    <dt>Development Status</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Development+Status+%3A%3A+4+-+Beta">
+      4 - Beta
+    </a>
+    </dd>
+    
+    
+    <dt>Environment</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Environment+%3A%3A+Plugins">
+      Plugins
+    </a>
+    </dd>
+    
+    
+    <dt>Intended Audience</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Intended+Audience+%3A%3A+Developers">
+      Developers
+    </a>
+    </dd>
+    
+    
+    <dt>License</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=License+%3A%3A+OSI+Approved+%3A%3A+MIT+License">
+      OSI Approved :: MIT License
+    </a>
+    </dd>
+    
+    
+    <dt>Operating System</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+OS+Independent">
+      OS Independent
+    </a>
+    </dd>
+    
+    
+    <dt>Programming Language</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+2">
+      Python :: 2
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+2.6">
+      Python :: 2.6
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+2.7">
+      Python :: 2.7
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3">
+      Python :: 3
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.2">
+      Python :: 3.2
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.3">
+      Python :: 3.3
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.4">
+      Python :: 3.4
+    </a>
+    </dd>
+    
+    
+    <dt>Topic</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Software+Development+%3A%3A+Libraries+%3A%3A+Python+Modules">
+      Software Development :: Libraries :: Python Modules
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Text+Editors+%3A%3A+Integrated+Development+Environments+%28IDE%29">
+      Text Editors :: Integrated Development Environments (IDE)
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Utilities">
+      Utilities
+    </a>
+    </dd>
+    
+    
+  </dl>
+</div>
+
+
+      </div>
+      <div class="vertical-tabs__panel">
+        <!-- mobile menu -->
+        <nav>
+          <a id="mobile-description-tab" data-target="project-tabs.mobileTab" data-action="project-tabs#onTabClick" class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--mobile vertical-tabs__tab--no-top-border vertical-tabs__tab--is-active" href="https://pypi.org/project/jedi/0.8.1/#description">
+            <i class="fa fa-align-left" aria-hidden="true"></i>
+            Project description
+          </a>
+          <a id="mobile-data-tab" data-target="project-tabs.mobileTab" data-action="project-tabs#onTabClick" class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--mobile" href="https://pypi.org/project/jedi/0.8.1/#data">
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+            Project details
+          </a>
+          <a id="mobile-history-tab" data-target="project-tabs.mobileTab" data-action="project-tabs#onTabClick" class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--mobile" href="https://pypi.org/project/jedi/0.8.1/#history">
+            <i class="fa fa-history" aria-hidden="true"></i>
+            Release history
+          </a>
+          
+          <a id="mobile-files-tab" data-target="project-tabs.mobileTab" data-action="project-tabs#onTabClick" class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--mobile" href="https://pypi.org/project/jedi/0.8.1/#files">
+            <i class="fa fa-download" aria-hidden="true"></i>
+            Download files
+          </a>
+          
+        </nav>
+
+        
+        <div id="description" data-target="project-tabs.content" class="vertical-tabs__content" role="tabpanel" aria-labelledby="description-tab mobile-description-tab" style="display: block;">
+          <h2 class="page-title">Project description</h2>
+          
+          <div class="project-description">
+            <a href="http://travis-ci.org/davidhalter/jedi" rel="nofollow"><img alt="Travis-CI build status" src="./jedi · PyPI_files/68747470733a2f2f7365637572652e7472617669732d63692e6f72672f646176696468616c7465722f6a6564692e706e673f6272616e63683d6d6173746572"></a>
+<a href="https://coveralls.io/r/davidhalter/jedi" rel="nofollow"><img alt="Coverage Status" src="./jedi · PyPI_files/68747470733a2f2f636f766572616c6c732e696f2f7265706f732f646176696468616c7465722f6a6564692f62616467652e706e673f6272616e63683d6d6173746572"></a>
+<a href="https://crate.io/packages/jedi/" rel="nofollow"><img alt="Number of PyPI downloads" src="./jedi · PyPI_files/68747470733a2f2f70797069702e696e2f642f6a6564692f62616467652e706e67"></a>
+<a href="https://crate.io/packages/jedi/" rel="nofollow"><img alt="Latest PyPI version" src="./jedi · PyPI_files/68747470733a2f2f70797069702e696e2f762f6a6564692f62616467652e706e67"></a>
+<p>Jedi is an autocompletion tool for Python that can be used in IDEs/editors.
+Jedi works. Jedi is fast. It understands all of the basic Python syntax
+elements including many builtin functions.</p>
+<p>Additionaly, Jedi suports two different goto functions and has support for
+renaming as well as Pydoc support and some other IDE features.</p>
+<p>Jedi uses a very simple API to connect with IDE’s. There’s a reference
+implementation as a <a href="https://github.com/davidhalter/jedi-vim" rel="nofollow">VIM-Plugin</a>,
+which uses Jedi’s autocompletion.  I encourage you to use Jedi in your IDEs.
+It’s really easy. If there are any problems (also with licensing), just contact
+me.</p>
+<p>Jedi can be used with the following editors:</p>
+<ul>
+<li>Vim (<a href="https://github.com/davidhalter/jedi-vim" rel="nofollow">jedi-vim</a>, <a href="http://valloric.github.io/YouCompleteMe/" rel="nofollow">YouCompleteMe</a>)</li>
+<li>Emacs (<a href="https://github.com/tkf/emacs-jedi" rel="nofollow">Jedi.el</a>, <a href="https://github.com/jorgenschaefer/elpy" rel="nofollow">elpy</a>, <a href="https://github.com/proofit404/anaconda-mode" rel="nofollow">anaconda-mode</a>, <a href="https://github.com/abingham/emacs-ycmd" rel="nofollow">ycmd</a>)</li>
+<li>Sublime Text (<a href="https://github.com/srusskih/SublimeJEDI" rel="nofollow">SublimeJEDI</a> [ST2 + ST3], <a href="https://github.com/DamnWidget/anaconda" rel="nofollow">anaconda</a> [only ST3])</li>
+<li><a href="http://uvviewsoft.com/synjedi/" rel="nofollow">SynWrite</a></li>
+<li><a href="https://github.com/lawrenceakka/python-jedi.tmbundle" rel="nofollow">TextMate</a> (Not sure if it’s actually working)</li>
+<li><a href="http://kate-editor.org/" rel="nofollow">Kate</a> version 4.13+ supports it natively, you have to enable it, though. [<a href="https://projects.kde.org/projects/kde/applications/kate/repository/show?rev=KDE%2F4.13" rel="nofollow">proof</a>]</li>
+</ul>
+<p>And it powers the following projects:</p>
+<ul>
+<li><a href="https://github.com/Kozea/wdb" rel="nofollow">wdb</a> - Web Debugger</li>
+</ul>
+<p>Here are some pictures:</p>
+<img alt="https://github.com/davidhalter/jedi/raw/master/docs/_screenshots/screenshot_complete.png" src="./jedi · PyPI_files/68747470733a2f2f6769746875622e636f6d2f646176696468616c7465722f6a6564692f7261772f6d61737465722f646f63732f5f73637265656e73686f74732f73637265656e73686f745f636f6d706c6574652e706e67">
+<p>Completion for almost anything (Ctrl+Space).</p>
+<img alt="https://github.com/davidhalter/jedi/raw/master/docs/_screenshots/screenshot_function.png" src="./jedi · PyPI_files/68747470733a2f2f6769746875622e636f6d2f646176696468616c7465722f6a6564692f7261772f6d61737465722f646f63732f5f73637265656e73686f74732f73637265656e73686f745f66756e6374696f6e2e706e67">
+<p>Display of function/class bodies, docstrings.</p>
+<img alt="https://github.com/davidhalter/jedi/raw/master/docs/_screenshots/screenshot_pydoc.png" src="./jedi · PyPI_files/68747470733a2f2f6769746875622e636f6d2f646176696468616c7465722f6a6564692f7261772f6d61737465722f646f63732f5f73637265656e73686f74732f73637265656e73686f745f7079646f632e706e67">
+<p>Pydoc support (with highlighting, Shift+k).</p>
+<p>There is also support for goto and renaming.</p>
+<p>Get the latest version from <a href="https://github.com/davidhalter/jedi" rel="nofollow">github</a>
+(master branch should always be kind of stable/working).</p>
+<p>Docs are available at <a href="https://jedi.jedidjah.ch/" rel="nofollow">https://jedi.jedidjah.ch/</a>. Pull requests with documentation
+enhancements and/or fixes are awesome and most welcome. Jedi uses <a href="http://semver.org/" rel="nofollow">semantic
+versioning</a>.</p>
+<div id="installation">
+<h2>Installation</h2>
+<blockquote>
+pip install jedi</blockquote>
+<p>Note: This just installs the Jedi library, not the editor plugins. For
+information about how to make it work with your editor, refer to the
+corresponding documentation.</p>
+<p>You don’t want to use <tt>pip</tt>? Please refer to the <a href="https://jedi.jedidjah.ch/en/latest/docs/installation.html" rel="nofollow">manual</a>.</p>
+</div>
+<div id="feature-support-and-caveats">
+<h2>Feature Support and Caveats</h2>
+<p>Jedi really understands your Python code. For a comprehensive list what Jedi
+can do, see: <a href="https://jedi.jedidjah.ch/en/latest/docs/features.html" rel="nofollow">Features</a>. A list of
+caveats can be found on the same page.</p>
+<p>You can run Jedi on cPython 2.6, 2.7, 3.2 or 3.3, but it should also
+understand/parse code older than those versions.</p>
+<p>Tips on how to use Jedi efficiently can be found <a href="https://jedi.jedidjah.ch/en/latest/docs/recipes.html" rel="nofollow">here</a>.</p>
+</div>
+<div id="api-for-ides">
+<h2>API for IDEs</h2>
+<p>It’s very easy to create an editor plugin that uses Jedi. See <a href="https://jedi.jedidjah.ch/en/latest/docs/plugin-api.html" rel="nofollow">Plugin API</a> for more
+information.</p>
+<p>If you have specific questions, please add an issue or ask on <a href="https://stackoverflow.com/" rel="nofollow">stackoverflow</a> with the label <tt><span class="pre">python-jedi</span></tt>.</p>
+</div>
+<div id="development">
+<h2>Development</h2>
+<p>There’s a pretty good and extensive <a href="https://jedi.jedidjah.ch/en/latest/docs/development.html" rel="nofollow">development documentation</a>.</p>
+</div>
+<div id="testing">
+<h2>Testing</h2>
+<p>The test suite depends on <tt>tox</tt> and <tt>pytest</tt>:</p>
+<pre>pip install tox pytest
+</pre>
+<p>To run the tests for all supported Python versions:</p>
+<pre>tox
+</pre>
+<p>If you want to test only a specific Python version (e.g. Python 2.7), it’s as
+easy as</p>
+<pre>tox -e py27
+</pre>
+<p>Tests are also run automatically on <a href="https://travis-ci.org/davidhalter/jedi/" rel="nofollow">Travis CI</a>.</p>
+<p>For more detailed information visit the <a href="https://jedi.jedidjah.ch/en/latest/docs/testing.html" rel="nofollow">testing documentation</a></p>
+<div id="changelog">
+<h3>Changelog</h3>
+<div id="id1">
+<h4>0.8.1 (2014-07-15)</h4>
+<ul>
+<li>Bugfix release, the last release forgot to include files that improve
+autocompletion for builtin libraries. Fixed.</li>
+</ul>
+</div>
+<div id="id2">
+<h4>0.8.0 (2014-05-05)</h4>
+<ul>
+<li>Memory Consumption for compiled modules (e.g. builtins, sys) has been reduced
+drastically. Loading times are down as well (it takes basically as long as an
+import).</li>
+<li>REPL completion is starting to become usable.</li>
+<li>Various small API changes. Generally this release focuses on stability and
+refactoring of internal APIs.</li>
+<li>Introducing operator precedence, which makes calculating correct Array
+indices and <tt>__getattr__</tt> strings possible.</li>
+</ul>
+</div>
+<div id="id3">
+<h4>0.7.0 (2013-08-09)</h4>
+<ul>
+<li>Switched from LGPL to MIT license.</li>
+<li>Added an Interpreter class to the API to make autocompletion in REPL
+possible.</li>
+<li>Added autocompletion support for namespace packages.</li>
+<li>Add sith.py, a new random testing method.</li>
+</ul>
+</div>
+<div id="id4">
+<h4>0.6.0 (2013-05-14)</h4>
+<ul>
+<li>Much faster parser with builtin part caching.</li>
+<li>A test suite, thanks @tkf.</li>
+</ul>
+</div>
+<div id="versions-2012">
+<h4>0.5 versions (2012)</h4>
+<ul>
+<li>Initial development.</li>
+</ul>
+</div>
+</div>
+</div>
+
+          </div>
+          
+        </div>
+
+        
+        <div id="data" data-target="project-tabs.content" class="vertical-tabs__content" role="tabpanel" aria-labelledby="mobile-data-tab" style="display: none;">
+          <h2 class="page-title">Project details</h2>
+          
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Project links</h3>
+  
+  
+  <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed" href="https://github.com/davidhalter/jedi" rel="nofollow">
+    
+    
+
+
+  
+
+
+<i class="fab fa-github" aria-hidden="true"></i>Homepage
+  </a>
+  
+  
+  
+  
+</div>
+
+
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Statistics</h3>
+  
+  <div class="github-repo-info hidden" data-url="https://api.github.com/repos/davidhalter/jedi">
+    <em>GitHub statistics:</em>
+    <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed github-repo-info__item" data-key="html_url" data-attr="href" data-supplement="/stargazers" rel="noopener" target="_blank" href="https://github.com/davidhalter/jedi/stargazers">
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <strong>Stars: </strong>
+      <span class="github-repo-info__item" data-key="stargazers_count">3,515</span>
+    </a>
+    <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed github-repo-info__item" data-key="html_url" data-attr="href" data-supplement="/network" rel="noopener" target="_blank" href="https://github.com/davidhalter/jedi/network">
+      <i class="fa fa-code-branch" aria-hidden="true"></i>
+      <strong>Forks: </strong>
+      <span class="github-repo-info__item" data-key="forks_count">308</span>
+    </a>
+    <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed github-repo-info__item" data-key="html_url" data-attr="href" data-supplement="/issues" rel="noopener" target="_blank" href="https://github.com/davidhalter/jedi/issues">
+      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+      <strong>Open issues/PRs: </strong>
+      <span class="github-repo-info__item" data-key="open_issues_count">120</span>
+    </a>
+  </div>
+  
+  <p>View statistics for this project via <a href="https://libraries.io/pypi/jedi">Libraries.io</a>, or by using
+    <a href="https://packaging.python.org/guides/analyzing-pypi-package-downloads/">Google
+      BigQuery</a></p>
+</div>
+
+
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Meta</h3>
+  
+  <p><strong>License:</strong> MIT License (MIT)</p>
+  
+  
+    <p><strong>Author:</strong> <a href="mailto:davidhalter88@gmail.com">David Halter</a></p>
+  
+  
+  
+  <p class="tags">
+    <i class="fa fa-tags" aria-hidden="true"></i>
+    <span class="sr-only">Tags:</span>
+    
+    <span class="package-keyword">
+      python,
+    </span>
+    
+    <span class="package-keyword">
+      completion,
+    </span>
+    
+    <span class="package-keyword">
+      refactoring,
+    </span>
+    
+    <span class="package-keyword">
+      vim
+    </span>
+    
+  </p>
+  
+  
+</div>
+
+
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Maintainers</h3>
+  
+    
+    <span class="sidebar-section__maintainer">
+      <a href="https://pypi.org/user/David.Halter/" aria-label="David.Halter" class="sidebar-section__user-gravatar">
+        <img src="./jedi · PyPI_files/68747470733a2f2f7365637572652e67726176617461722e636f6d2f6176617461722f34316631633064376535636465343665646130646236313062303933333631333f73697a653d3530" height="50" width="50" alt="Avatar for David.Halter from gravatar.com" title="Avatar for David.Halter from gravatar.com">
+      </a>
+      <a href="https://pypi.org/user/David.Halter/" class="sidebar-section__user-gravatar-text">
+        David.Halter
+      </a>
+    </span>
+  
+</div>
+
+
+<div class="sidebar-section classifiers">
+  <h3>Classifiers</h3>
+  <dl>
+    
+    <dt>Development Status</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Development+Status+%3A%3A+4+-+Beta">
+      4 - Beta
+    </a>
+    </dd>
+    
+    
+    <dt>Environment</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Environment+%3A%3A+Plugins">
+      Plugins
+    </a>
+    </dd>
+    
+    
+    <dt>Intended Audience</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Intended+Audience+%3A%3A+Developers">
+      Developers
+    </a>
+    </dd>
+    
+    
+    <dt>License</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=License+%3A%3A+OSI+Approved+%3A%3A+MIT+License">
+      OSI Approved :: MIT License
+    </a>
+    </dd>
+    
+    
+    <dt>Operating System</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+OS+Independent">
+      OS Independent
+    </a>
+    </dd>
+    
+    
+    <dt>Programming Language</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+2">
+      Python :: 2
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+2.6">
+      Python :: 2.6
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+2.7">
+      Python :: 2.7
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3">
+      Python :: 3
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.2">
+      Python :: 3.2
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.3">
+      Python :: 3.3
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.4">
+      Python :: 3.4
+    </a>
+    </dd>
+    
+    
+    <dt>Topic</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Software+Development+%3A%3A+Libraries+%3A%3A+Python+Modules">
+      Software Development :: Libraries :: Python Modules
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Text+Editors+%3A%3A+Integrated+Development+Environments+%28IDE%29">
+      Text Editors :: Integrated Development Environments (IDE)
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Utilities">
+      Utilities
+    </a>
+    </dd>
+    
+    
+  </dl>
+</div>
+
+          <br>
+        </div>
+
+        
+        <div id="history" data-target="project-tabs.content" class="vertical-tabs__content" role="tabpanel" aria-labelledby="history-tab mobile-history-tab" style="display: none;">
+          <h2 class="page-title split-layout">
+            <span>Release history</span>
+            <a class="reset-text margin-top" href="https://pypi.org/help/#project-release-notifications">Release notifications</a>
+          </h2>
+
+          <section class="release-timeline">
+            
+            
+            
+            
+            <div class="release release--latest">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.13.1/">
+                <p class="release__version">
+                  0.13.1 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-10-02T20:52:56+0000">
+  Oct 2, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.13.0/">
+                <p class="release__version">
+                  0.13.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-10-01T23:19:53+0000">
+  Oct 1, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.12.1/">
+                <p class="release__version">
+                  0.12.1 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-06-30T13:01:35+0000">
+  Jun 30, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.12.0/">
+                <p class="release__version">
+                  0.12.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-04-15T16:01:05+0000">
+  Apr 15, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.11.1/">
+                <p class="release__version">
+                  0.11.1 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-12-14T21:54:10+0000">
+  Dec 14, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.11.0/">
+                <p class="release__version">
+                  0.11.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-09-20T20:27:51+0000">
+  Sep 20, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.10.2/">
+                <p class="release__version">
+                  0.10.2 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-04-05T18:20:36+0000">
+  Apr 5, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.10.1/">
+                <p class="release__version">
+                  0.10.1 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-04-04T23:27:56+0000">
+  Apr 4, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.10.0/">
+                <p class="release__version">
+                  0.10.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-02-02T23:12:04+0000">
+  Feb 2, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.9.0/">
+                <p class="release__version">
+                  0.9.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2015-04-28T17:03:49+0000">
+  Apr 28, 2015
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release release--current">
+              <div class="release__meta">
+                
+                <span class="badge">This version</span>
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/blue-cube.e6165d35.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.8.1/">
+                <p class="release__version">
+                  0.8.1 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2015-01-05T12:18:10+0000">
+  Jan 5, 2015
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.7.0/">
+                <p class="release__version">
+                  0.7.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2013-08-18T16:19:24+0000">
+  Aug 18, 2013
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.6.0/">
+                <p class="release__version">
+                  0.6.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2013-05-14T19:21:27+0000">
+  May 14, 2013
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.5b5/">
+                <p class="release__version">
+                  0.5b5 <span class="badge badge--warning release__version-badge">pre-release</span>
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2012-12-12T17:03:52+0000">
+  Dec 12, 2012
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.5b4/">
+                <p class="release__version">
+                  0.5b4 <span class="badge badge--warning release__version-badge">pre-release</span>
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2012-12-10T21:52:57+0000">
+  Dec 10, 2012
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.5b3/">
+                <p class="release__version">
+                  0.5b3 <span class="badge badge--warning release__version-badge">pre-release</span>
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2012-10-14T14:43:44+0000">
+  Oct 14, 2012
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.8.1-final0/">
+                <p class="release__version">
+                  0.8.1-final0 <span class="badge badge--warning release__version-badge">pre-release</span>
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2014-07-22T23:04:37+0000">
+  Jul 22, 2014
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release release--oldest">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/jedi/0.8.0-final0/">
+                <p class="release__version">
+                  0.8.0-final0 <span class="badge badge--warning release__version-badge">pre-release</span>
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2014-05-04T22:35:33+0000">
+  May 4, 2014
+</time></p>
+              </a>
+            </div>
+            
+          </section>
+        </div>
+
+        
+          
+          <div id="files" data-target="project-tabs.content" class="vertical-tabs__content" role="tabpanel" aria-labelledby="files-tab mobile-files-tab" style="display: none;">
+            <h2 class="page-title">Download files</h2>
+            <p>Download the file for your platform. If you're not sure which to choose, learn more about <a href="https://packaging.python.org/installing/">installing packages</a>.</p>
+
+            <table class="table table--downloads">
+              <thead>
+                <tr>
+                  <th class="table__filename">
+                    Filename, size &amp; hash
+                    <a href="https://pip.pypa.io/en/stable/reference/pip_install/#hash-checking-mode" class="tooltipped tooltipped-n" aria-label="what&#39;s this?" data-original-label="what&#39;s this?" target="_blank">
+                      <i class="fa fa-question-circle" aria-hidden="true"></i>
+                      <span class="sr-only">SHA256 hash help</span>
+                    </a>
+                  </th>
+                  <th class="table__type">File type</th>
+                  <th class="table__version">Python version</th>
+                  <th class="table__upload-date">Upload date</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>
+                    <a href="https://files.pythonhosted.org/packages/33/99/655efb8398112be833d0705ff7cabfb6e896ca78b7eeac8571c78c8ca049/jedi-0.8.1.tar.gz">
+                      jedi-0.8.1.tar.gz
+                    </a>
+                     (304.1 kB)
+                    <a class="-js-copy-hash table__sha256-link tooltipped tooltipped-s" aria-label="Copy to clipboard" data-original-label="Copy to clipboard" data-clipboard-text="4d23ae457cec14cedb71fb56f0ed51d75798f2fd74e91f6e5134b09a4a78eba8">
+                      <i class="fa fa-copy" aria-hidden="true"></i>
+                      <span class="sr-only">Copy SHA256 hash</span>
+                      SHA256
+                    </a>
+                  </td>
+                  <td>
+                    Source
+                  </td>
+                  <td>
+                    
+                      None
+                    
+                  </td>
+                  <td>Jan 5, 2015</td>
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+    </main>
+
+    <footer class="footer" role="contentinfo">
+      <div class="footer__logo">
+        <img src="./jedi · PyPI_files/white-cube.8c3a6fe9.svg" alt="Logo" class="-js-white-cube">
+      </div>
+
+      <div class="footer__menus">
+        <ul class="footer__menu">
+          <li>
+            <h2>Help</h2>
+          </li>
+          <li><a href="https://packaging.python.org/installing/">Installing packages</a></li>
+          <li><a href="https://packaging.python.org/distributing/">Uploading packages</a></li>
+          <li><a href="https://packaging.python.org/">User guide</a></li>
+          <li><a href="https://pypi.org/help/">FAQs</a></li>
+        </ul>
+        <ul class="footer__menu">
+          <li>
+            <h2>About PyPI</h2>
+          </li>
+          
+          <li><a href="https://status.python.org/">Status: <span data-statuspage-domain="https://2p66nmmycsj3.statuspage.io">All Systems Operational</span></a></li>
+          
+          <li><a href="https://dtdg.co/pypi">Infrastructure dashboard</a></li>
+          <li><a href="https://www.python.org/dev/peps/pep-0541/">Package index name retention</a></li>
+          <li><a href="https://pypi.org/sponsors/">Our sponsors</a></li>
+        </ul>
+
+
+        <ul class="footer__menu">
+          <li>
+            <h2>Contributing to PyPI</h2>
+          </li>
+          <li><a href="https://pypi.org/help/#feedback">Bugs and feedback</a></li>
+          <li><a href="https://github.com/pypa/warehouse">Contribute on GitHub</a></li>
+          <li><a href="https://github.com/pypa/warehouse/graphs/contributors">Development credits</a></li>
+        </ul>
+        <ul class="footer__menu">
+          <li>
+            <h2>Using PyPI</h2>
+          </li>
+          <li><a href="https://www.pypa.io/en/latest/code-of-conduct/">Code of conduct</a></li>
+          <li><a href="https://pypi.org/security/">Report security issue</a></li>
+          <li><a href="https://www.python.org/privacy/">Privacy policy</a></li>
+          <li><a href="https://pypi.org/policy/terms-of-use/">Terms of use</a></li>
+        </ul>
+      </div>
+
+      <hr class="footer__divider">
+
+      <div class="footer__text">
+        <p>
+          Developed and maintained by the Python community, for the Python community.
+          <br>
+          <a href="https://donate.pypi.org/">Donate today!</a>
+        </p>
+        <p>© 2018 <a href="https://www.python.org/psf/">Python Software Foundation</a></p>
+      </div>
+
+      <div class="centered hide-on-desktop">
+        <button class="button button--switch-to-desktop" data-target="viewport-toggle.switchToDesktop" data-action="viewport-toggle#switchToDesktop">
+          Desktop version
+        </button>
+      </div>
+    </footer>
+
+    
+
+<div class="sponsors">
+  <p class="sponsors__title">Supported by</p>
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://www.elastic.co/">
+        <img class="sponsors__image" alt="Elastic" src="./jedi · PyPI_files/elastic.a912fb87.png">
+        <span class="sponsors__name">Elastic</span>
+        <span class="sponsors__service">Search</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://www.pingdom.com/">
+        <img class="sponsors__image" alt="Pingdom" src="./jedi · PyPI_files/pingdom.07446398.png">
+        <span class="sponsors__name">Pingdom</span>
+        <span class="sponsors__service">Monitoring</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://cloud.google.com/">
+        <img class="sponsors__image" alt="Google" src="./jedi · PyPI_files/google.2f72f26f.png">
+        <span class="sponsors__name">Google</span>
+        <span class="sponsors__service">BigQuery</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://getsentry.com/for/python">
+        <img class="sponsors__image" alt="Sentry" src="./jedi · PyPI_files/sentry.5ab437bc.png">
+        <span class="sponsors__name">Sentry</span>
+        <span class="sponsors__service">Error logging</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://aws.amazon.com/">
+        <img class="sponsors__image" alt="AWS" src="./jedi · PyPI_files/aws.5f800271.png">
+        <span class="sponsors__name">AWS</span>
+        <span class="sponsors__service">Cloud computing</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://www.datadoghq.com/">
+        <img class="sponsors__image" alt="DataDog" src="./jedi · PyPI_files/datadog.e569d741.png">
+        <span class="sponsors__name">DataDog</span>
+        <span class="sponsors__service">Monitoring</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://www.fastly.com/">
+        <img class="sponsors__image" alt="Fastly" src="./jedi · PyPI_files/fastly.0563c6f5.png">
+        <span class="sponsors__name">Fastly</span>
+        <span class="sponsors__service">CDN</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://www.signalfx.com/">
+        <img class="sponsors__image" alt="SignalFx" src="./jedi · PyPI_files/signalfx.560cb5c4.png">
+        <span class="sponsors__name">SignalFx</span>
+        <span class="sponsors__service">Supporter</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://www.digicert.com/">
+        <img class="sponsors__image" alt="DigiCert" src="./jedi · PyPI_files/digicert.79748718.png">
+        <span class="sponsors__name">DigiCert</span>
+        <span class="sponsors__service">EV certificate</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://statuspage.io/">
+        <img class="sponsors__image" alt="StatusPage" src="./jedi · PyPI_files/statuspage.67af0b3d.png">
+        <span class="sponsors__name">StatusPage</span>
+        <span class="sponsors__service">Status page</span>
+      </a>
+    
+  
+</div>
+
+    
+  
+
+</body></html>

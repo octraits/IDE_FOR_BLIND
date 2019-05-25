@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<!-- saved from url=(0074)http://scottlobdell.me/2015/02/writing-autocomplete-engine-scratch-python/ -->
+<html class=" js " lang="en-US" prefix="og: http://ogp.me/ns#"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="pingback" href="http://scottlobdell.me/xmlrpc.php">
+<title>Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell</title>
+
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.4.24 - http://yoast.com/wordpress/seo/ -->
+<link rel="canonical" href="http://scottlobdell.me/2015/02/writing-autocomplete-engine-scratch-python/">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) - Scott Lobdell">
+<meta property="og:description" content="True Story Follows So I’m on the grind with Exercise Library, and to make a long story short, I wanted an autocomplete search feature. If I was really lazy and otherwise a terrible person I could save a bunch of strings to SQL and make some queries that were something like: SELECT exercise_name FROM exercise_table WHERE exercise_name LIKE &#39;bar%&#39;; But I’m better than that. And so are you. So I have experience with SOLR and Haystack which has autocomplete. I’ve also recently played around with Amazon CloudSearch which also has autocomplete. But the reality is that this is a really simple application and adding any sort of third party support would be overkill, and I didn’t want to create additional dependencies. Spell Check I found this really thorough and interesting blog post complete with code samples here. The only real difference is that my use case is far simpler. In the blog post mentioned above, spell check attempts to correct based on all words in the English dictionary. I’m just trying to spell check based on a finite data set of about 700 exercise names. The resulting code for my case looks like this: import re from collections import defaultdict [...]">
+<meta property="og:url" content="http://scottlobdell.me/2015/02/writing-autocomplete-engine-scratch-python/">
+<meta property="og:site_name" content="Scott Lobdell">
+<meta property="article:section" content="Python">
+<meta property="article:published_time" content="2015-02-27T17:00:54+00:00">
+<meta property="article:modified_time" content="2015-02-27T22:09:08+00:00">
+<meta property="og:image" content="http://scottlobdell.me/wp-content/uploads/2015/02/Screen-Shot-2015-02-27-at-9.00.14-AM.png">
+<meta property="og:image" content="http://scottlobdell.me/wp-content/uploads/2015/02/Screen-Shot-2015-02-27-at-2.04.21-PM.png">
+<meta property="og:image" content="http://scottlobdell.me/wp-content/uploads/2015/02/Screen-Shot-2015-02-27-at-2.07.03-PM.png">
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="dns-prefetch" href="http://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="http://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="Scott Lobdell » Feed" href="http://scottlobdell.me/feed/">
+<link rel="alternate" type="application/rss+xml" title="Scott Lobdell » Comments Feed" href="http://scottlobdell.me/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Scott Lobdell » Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) Comments Feed" href="http://scottlobdell.me/2015/02/writing-autocomplete-engine-scratch-python/feed/">
+		<script async="" src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/saved_resource"></script><script type="text/javascript" async="" src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/ga.js.download"></script><script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/scottlobdell.me\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.6.12"}};
+			!function(a,b,c){function d(a){var c,d,e,f,g,h=b.createElement("canvas"),i=h.getContext&&h.getContext("2d"),j=String.fromCharCode;if(!i||!i.fillText)return!1;switch(i.textBaseline="top",i.font="600 32px Arial",a){case"flag":return i.fillText(j(55356,56806,55356,56826),0,0),!(h.toDataURL().length<3e3)&&(i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,65039,8205,55356,57096),0,0),c=h.toDataURL(),i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,55356,57096),0,0),d=h.toDataURL(),c!==d);case"diversity":return i.fillText(j(55356,57221),0,0),e=i.getImageData(16,16,1,1).data,f=e[0]+","+e[1]+","+e[2]+","+e[3],i.fillText(j(55356,57221,55356,57343),0,0),e=i.getImageData(16,16,1,1).data,g=e[0]+","+e[1]+","+e[2]+","+e[3],f!==g;case"simple":return i.fillText(j(55357,56835),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode8":return i.fillText(j(55356,57135),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode9":return i.fillText(j(55358,56631),0,0),0!==i.getImageData(16,16,1,1).data[0]}return!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i;for(i=Array("simple","flag","unicode8","diversity","unicode9"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/wp-emoji-release.min.js.download" type="text/javascript"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="otw_sbm.css-css" href="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/otw_sbm.css" type="text/css" media="all">
+<link rel="stylesheet" id="mh-google-fonts-css" href="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/css" type="text/css" media="all">
+<link rel="stylesheet" id="mh-style-css" href="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/style.css" type="text/css" media="all">
+<script type="text/javascript" src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/jquery.js.download"></script>
+<script type="text/javascript" src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/jquery-migrate.min.js.download"></script>
+<script type="text/javascript" src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/scripts.js.download"></script>
+<script type="text/javascript" src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/external-tracking.min.js.download"></script>
+<link rel="https://api.w.org/" href="http://scottlobdell.me/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://scottlobdell.me/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://scottlobdell.me/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 4.6.12">
+<link rel="shortlink" href="http://scottlobdell.me/?p=1198">
+<link rel="alternate" type="application/json+oembed" href="http://scottlobdell.me/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fscottlobdell.me%2F2015%2F02%2Fwriting-autocomplete-engine-scratch-python%2F">
+<link rel="alternate" type="text/xml+oembed" href="http://scottlobdell.me/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fscottlobdell.me%2F2015%2F02%2Fwriting-autocomplete-engine-scratch-python%2F&amp;format=xml">
+<!--[if lt IE 9]>
+<script src="http://scottlobdell.me/wp-content/themes/mh-corporate-basic/js/css3-mediaqueries.js"></script>
+<![endif]-->
+		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #f4f4f4; }
+</style>
+<!-- Google Analytics Tracking by Google Analyticator 6.4.7.3: http://www.videousermanuals.com/google-analyticator/ -->
+<script type="text/javascript">
+                var analyticsFileTypes = [''];
+                            var analyticsSnippet = 'enabled';
+                var analyticsEventTracking = 'enabled';
+            </script>
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+  
+	_gaq.push(['_setAccount', 'UA-47887237-1']);
+    _gaq.push(['_addDevId', 'i9k95']); // Google Analyticator App ID with Google
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+<script type="text/javascript" async="" src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/embed.js.download"></script><script async="" type="text/javascript" src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/count.js.download"></script><link rel="preload" as="style" href="https://c.disquscdn.com/next/embed/styles/lounge.d797d52db05c56e7ec33542889f90bca.css"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/common.bundle.18932c85febf9520158697cdc31f08ae.js"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/lounge.bundle.ab905f052ba8af95ba7fd0785f080e6d.js"><link rel="preload" as="script" href="https://disqus.com/next/config.js"><script src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/alfalfa.4a5fcca1fe50a757044dfd331b660625.js.download" async="" charset="UTF-8"></script></head>
+<body class="single single-post postid-1198 single-format-standard custom-background">
+<div class="mh-container"><div class="slicknav_menu"><a href="http://scottlobdell.me/2015/02/writing-autocomplete-engine-scratch-python/#" aria-haspopup="true" tabindex="0" class="slicknav_btn slicknav_collapsed"><span class="slicknav_menutxt">MENU</span><span class="slicknav_icon"><span class="slicknav_icon-bar"></span><span class="slicknav_icon-bar"></span><span class="slicknav_icon-bar"></span></span></a><nav class="slicknav_nav slicknav_hidden" aria-hidden="true" role="menu" style="display: none;">
+		<div class="menu"></div>
+	</nav></div>
+<div class="wrapper-corporate">
+<header class="header-wrap">
+	<a href="http://scottlobdell.me/" title="Scott Lobdell" rel="home">
+<div class="logo-wrap" role="banner">
+<img src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/cropped-sfsky.jpg" height="240" width="720" alt="Scott Lobdell">
+<div class="logo logo-overlay">
+<h1 class="logo-name">Scott Lobdell</h1>
+<h2 class="logo-desc">Software Done Right. Sort of.</h2>
+</div>
+</div>
+</a>
+	<nav class="main-nav clearfix">
+		<div class="menu"></div>
+	</nav>
+</header>
+<div class="mh-wrapper clearfix">
+	<div class="mh-content left"><article class="post-1198 post type-post status-publish format-standard has-post-thumbnail hentry category-python_category">
+	<header class="post-header">
+		<h1 class="entry-title">Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck)</h1>
+		<p class="meta post-meta">Posted on <span class="updated">February 27, 2015</span>  by <span class="vcard author"><a class="fn" href="http://scottlobdell.me/author/admin/">admin</a></span>  in <a href="http://scottlobdell.me/category/python_category/" rel="category tag">Python</a> | 0 Comments</p>
+	</header>
+	<div class="entry clearfix">
+		
+<div class="post-thumbnail">
+<img src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/Screen-Shot-2015-02-27-at-9.00.14-AM.png" alt="" title="Screen Shot 2015-02-27 at 9.00.14 AM">
+</div>
+		<h2>True Story Follows</h2>
+<p>
+So I’m on the grind with <a href="http://www.exercise-library.com/">Exercise Library</a>, and to make a long story short, I wanted an autocomplete search feature.  If I was really lazy and otherwise a terrible person I could save a bunch of strings to SQL and make some queries that were something like:
+</p>
+<p><!-- HTML generated using hilite.me -->
+</p><div style="background: #202020; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #6ab825; font-weight: bold">SELECT</span> <span style="color: #d0d0d0">exercise_name</span> <span style="color: #6ab825; font-weight: bold">FROM</span> <span style="color: #d0d0d0">exercise_table</span> <span style="color: #6ab825; font-weight: bold">WHERE</span> <span style="color: #d0d0d0">exercise_name</span> <span style="color: #6ab825; font-weight: bold">LIKE</span> <span style="color: #ed9d13">'bar%'</span><span style="color: #d0d0d0">;</span>
+</pre>
+</div>
+<p>
+But I’m better than that.  And so are you.
+</p>
+<p>
+So I have experience with SOLR and Haystack which has autocomplete.  I’ve also recently played around with <a href="http://scottlobdell.me/2015/02/getting-started-amazon-cloud-search-nosql-python/">Amazon CloudSearch</a> which also has autocomplete.
+</p>
+<p>
+But the reality is that this is a really simple application and adding any sort of third party support would be overkill, and I didn’t want to create additional dependencies.
+</p>
+<h2>Spell Check</h2>
+<p>
+I found this really thorough and interesting blog post complete with code samples <a href="http://norvig.com/spell-correct.html" target="_blank">here</a>.
+</p>
+<p>
+The only real difference is that my use case is far simpler.  In the blog post mentioned above, spell check attempts to correct based on all words in the English dictionary.  I’m just trying to spell check based on a finite data set of about 700 exercise names.
+</p>
+<p>
+The resulting code for my case looks like this:
+</p>
+<p><!-- HTML generated using hilite.me -->
+</p><div style="background: #202020; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #6ab825; font-weight: bold">import</span> <span style="color: #447fcf; text-decoration: underline">re</span>
+<span style="color: #6ab825; font-weight: bold">from</span> <span style="color: #447fcf; text-decoration: underline">collections</span> <span style="color: #6ab825; font-weight: bold">import</span> <span style="color: #d0d0d0">defaultdict</span>
+<span style="color: #6ab825; font-weight: bold">from</span> <span style="color: #447fcf; text-decoration: underline">exercise_library.utils</span> <span style="color: #6ab825; font-weight: bold">import</span> <span style="color: #d0d0d0">read_file_as_json</span>
+
+
+<span style="color: #6ab825; font-weight: bold">class</span> <span style="color: #447fcf; text-decoration: underline">SpellChecker</span><span style="color: #d0d0d0">(</span><span style="color: #24909d">object</span><span style="color: #d0d0d0">):</span>
+
+    <span style="color: #6ab825; font-weight: bold">def</span> <span style="color: #447fcf">words</span><span style="color: #d0d0d0">(text):</span>
+        <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #d0d0d0">re.findall(</span><span style="color: #ed9d13">'[a-z]+'</span><span style="color: #d0d0d0">,</span> <span style="color: #d0d0d0">text.lower())</span>
+
+    <span style="color: #6ab825; font-weight: bold">def</span> <span style="color: #447fcf">train</span><span style="color: #d0d0d0">(features):</span>
+        <span style="color: #d0d0d0">model</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">defaultdict(</span><span style="color: #24909d">int</span><span style="color: #d0d0d0">)</span>
+        <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">f</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">features:</span>
+            <span style="color: #d0d0d0">model[f]</span> <span style="color: #d0d0d0">+=</span> <span style="color: #3677a9">1</span>
+        <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #d0d0d0">model</span>
+
+    <span style="color: #d0d0d0">NWORDS</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">train(words(</span>
+        <span style="color: #ed9d13">" "</span><span style="color: #d0d0d0">.join(</span>
+            <span style="color: #d0d0d0">[dict_obj[</span><span style="color: #ed9d13">"name"</span><span style="color: #d0d0d0">]</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">dict_obj</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">read_file_as_json(</span><span style="color: #ed9d13">"exercises.json"</span><span style="color: #d0d0d0">)]</span>
+        <span style="color: #d0d0d0">)</span>
+    <span style="color: #d0d0d0">))</span>
+
+    <span style="color: #d0d0d0">alphabet</span> <span style="color: #d0d0d0">=</span> <span style="color: #ed9d13">'abcdefghijklmnopqrstuvwxyz'</span>
+
+    <span style="color: #6ab825; font-weight: bold">def</span> <span style="color: #447fcf">_edits1</span><span style="color: #d0d0d0">(</span><span style="color: #24909d">self</span><span style="color: #d0d0d0">,</span> <span style="color: #d0d0d0">word):</span>
+        <span style="color: #d0d0d0">splits</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">[(word[:i],</span> <span style="color: #d0d0d0">word[i:])</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">i</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #24909d">range</span><span style="color: #d0d0d0">(</span><span style="color: #24909d">len</span><span style="color: #d0d0d0">(word)</span> <span style="color: #d0d0d0">+</span> <span style="color: #3677a9">1</span><span style="color: #d0d0d0">)]</span>
+        <span style="color: #d0d0d0">deletes</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">[a</span> <span style="color: #d0d0d0">+</span> <span style="color: #d0d0d0">b[</span><span style="color: #3677a9">1</span><span style="color: #d0d0d0">:]</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">a,</span> <span style="color: #d0d0d0">b</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">splits</span> <span style="color: #6ab825; font-weight: bold">if</span> <span style="color: #d0d0d0">b]</span>
+        <span style="color: #d0d0d0">transposes</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">[a</span> <span style="color: #d0d0d0">+</span> <span style="color: #d0d0d0">b[</span><span style="color: #3677a9">1</span><span style="color: #d0d0d0">]</span> <span style="color: #d0d0d0">+</span> <span style="color: #d0d0d0">b[</span><span style="color: #3677a9">0</span><span style="color: #d0d0d0">]</span> <span style="color: #d0d0d0">+</span> <span style="color: #d0d0d0">b[</span><span style="color: #3677a9">2</span><span style="color: #d0d0d0">:]</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">a,</span> <span style="color: #d0d0d0">b</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">splits</span> <span style="color: #6ab825; font-weight: bold">if</span> <span style="color: #24909d">len</span><span style="color: #d0d0d0">(b)</span> <span style="color: #d0d0d0">&gt;</span> <span style="color: #3677a9">1</span><span style="color: #d0d0d0">]</span>
+        <span style="color: #d0d0d0">replaces</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">[a</span> <span style="color: #d0d0d0">+</span> <span style="color: #d0d0d0">c</span> <span style="color: #d0d0d0">+</span> <span style="color: #d0d0d0">b[</span><span style="color: #3677a9">1</span><span style="color: #d0d0d0">:]</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">a,</span> <span style="color: #d0d0d0">b</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">splits</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">c</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #24909d">self</span><span style="color: #d0d0d0">.alphabet</span> <span style="color: #6ab825; font-weight: bold">if</span> <span style="color: #d0d0d0">b]</span>
+        <span style="color: #d0d0d0">inserts</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">[a</span> <span style="color: #d0d0d0">+</span> <span style="color: #d0d0d0">c</span> <span style="color: #d0d0d0">+</span> <span style="color: #d0d0d0">b</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">a,</span> <span style="color: #d0d0d0">b</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">splits</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">c</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #24909d">self</span><span style="color: #d0d0d0">.alphabet]</span>
+        <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #24909d">set</span><span style="color: #d0d0d0">(deletes</span> <span style="color: #d0d0d0">+</span> <span style="color: #d0d0d0">transposes</span> <span style="color: #d0d0d0">+</span> <span style="color: #d0d0d0">replaces</span> <span style="color: #d0d0d0">+</span> <span style="color: #d0d0d0">inserts)</span>
+
+    <span style="color: #6ab825; font-weight: bold">def</span> <span style="color: #447fcf">_known_edits2</span><span style="color: #d0d0d0">(</span><span style="color: #24909d">self</span><span style="color: #d0d0d0">,</span> <span style="color: #d0d0d0">word):</span>
+        <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #24909d">set</span><span style="color: #d0d0d0">(e2</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">e1</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #24909d">self</span><span style="color: #d0d0d0">._edits1(word)</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">e2</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #24909d">self</span><span style="color: #d0d0d0">._edits1(e1)</span> <span style="color: #6ab825; font-weight: bold">if</span> <span style="color: #d0d0d0">e2</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #24909d">self</span><span style="color: #d0d0d0">.NWORDS)</span>
+
+    <span style="color: #6ab825; font-weight: bold">def</span> <span style="color: #447fcf">_known</span><span style="color: #d0d0d0">(</span><span style="color: #24909d">self</span><span style="color: #d0d0d0">,</span> <span style="color: #d0d0d0">words):</span>
+        <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #24909d">set</span><span style="color: #d0d0d0">(w</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">w</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">words</span> <span style="color: #6ab825; font-weight: bold">if</span> <span style="color: #d0d0d0">w</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #24909d">self</span><span style="color: #d0d0d0">.NWORDS)</span>
+
+    <span style="color: #6ab825; font-weight: bold">def</span> <span style="color: #447fcf">correct_token</span><span style="color: #d0d0d0">(</span><span style="color: #24909d">self</span><span style="color: #d0d0d0">,</span> <span style="color: #d0d0d0">token):</span>
+        <span style="color: #d0d0d0">candidates</span> <span style="color: #d0d0d0">=</span> <span style="color: #24909d">self</span><span style="color: #d0d0d0">._known([token])</span> <span style="color: #6ab825; font-weight: bold">or</span> <span style="color: #24909d">self</span><span style="color: #d0d0d0">._known(</span><span style="color: #24909d">self</span><span style="color: #d0d0d0">._edits1(token))</span> <span style="color: #6ab825; font-weight: bold">or</span> <span style="color: #24909d">self</span><span style="color: #d0d0d0">._known_edits2(token)</span> <span style="color: #6ab825; font-weight: bold">or</span> <span style="color: #d0d0d0">[token]</span>
+        <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #24909d">max</span><span style="color: #d0d0d0">(candidates,</span> <span style="color: #d0d0d0">key=</span><span style="color: #24909d">self</span><span style="color: #d0d0d0">.NWORDS.get)</span>
+
+    <span style="color: #6ab825; font-weight: bold">def</span> <span style="color: #447fcf">correct_phrase</span><span style="color: #d0d0d0">(</span><span style="color: #24909d">self</span><span style="color: #d0d0d0">,</span> <span style="color: #d0d0d0">text):</span>
+        <span style="color: #d0d0d0">tokens</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">text.split()</span>
+        <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #d0d0d0">[</span><span style="color: #24909d">self</span><span style="color: #d0d0d0">.correct_token(token)</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">token</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">tokens]</span>
+</pre>
+</div>
+<p>
+So now if we run the program:
+</p>
+<p><!-- HTML generated using hilite.me -->
+</p><div style="background: #202020; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #d0d0d0">spellchecker</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">SpellChecker()</span>
+<span style="color: #d0d0d0">tokens</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">spellchecker.correct_phrase(</span><span style="color: #ed9d13">"dumbel sid bat babell shug pank"</span><span style="color: #d0d0d0">)</span>
+<span style="color: #6ab825; font-weight: bold">print</span> <span style="color: #d0d0d0">tokens</span>
+</pre>
+</div>
+<p>
+We get the output:
+</p>
+<p><!-- HTML generated using hilite.me -->
+</p><div style="background: #202020; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #d0d0d0">[</span><span style="color: #ed9d13">'dumbbell'</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">'side'</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">'bar'</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">'barbell'</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">'shrug'</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">'plank'</span><span style="color: #d0d0d0">]</span>
+</pre>
+</div>
+<p>
+You’ll notice that all of the word corrections are taken from my exercise library and don’t include all words in the English language.
+</p>
+<h2>Autocomplete</h2>
+<p>
+This was actually a pretty straightforward problem, especially since the data I’m working with is finite.  The idea is that for every exercise name, I can map all of its tokens to the exercise name, so for example:
+</p>
+<p><!-- HTML generated using hilite.me -->
+</p><div style="background: #202020; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #d0d0d0">token_to_exercise_name</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">{</span>
+    <span style="color: #ed9d13">"no"</span><span style="color: #d0d0d0">:</span> <span style="color: #d0d0d0">[</span>
+        <span style="color: #ed9d13">"no feet push up"</span>
+    <span style="color: #d0d0d0">],</span> 
+    <span style="color: #ed9d13">"vacuums"</span><span style="color: #d0d0d0">:</span> <span style="color: #d0d0d0">[</span>
+        <span style="color: #ed9d13">"vacuums"</span>
+    <span style="color: #d0d0d0">],</span> 
+    <span style="color: #ed9d13">"holding"</span><span style="color: #d0d0d0">:</span> <span style="color: #d0d0d0">[</span>
+        <span style="color: #ed9d13">"standing lat stretch  holding object "</span>
+    <span style="color: #d0d0d0">],</span> 
+    <span style="color: #ed9d13">"roll"</span><span style="color: #d0d0d0">:</span> <span style="color: #d0d0d0">[</span>
+        <span style="color: #ed9d13">"swiss ball roll outs"</span><span style="color: #d0d0d0">,</span> 
+        <span style="color: #ed9d13">"hip roll"</span><span style="color: #d0d0d0">,</span> 
+        <span style="color: #ed9d13">"straight arm roll outs"</span>
+    <span style="color: #d0d0d0">],</span> 
+    <span style="color: #ed9d13">"flexion"</span><span style="color: #d0d0d0">:</span> <span style="color: #d0d0d0">[</span>
+        <span style="color: #ed9d13">"ankle flexion with weight plate"</span>
+    <span style="color: #d0d0d0">],</span> 
+    <span style="color: #ed9d13">"sphinx"</span><span style="color: #d0d0d0">:</span> <span style="color: #d0d0d0">[</span>
+        <span style="color: #ed9d13">"sphinx push up"</span>
+    <span style="color: #d0d0d0">],</span> 
+    <span style="color: #ed9d13">"together"</span><span style="color: #d0d0d0">:</span> <span style="color: #d0d0d0">[</span>
+        <span style="color: #ed9d13">"standing hamstring stretch, feet together"</span><span style="color: #d0d0d0">,</span> 
+        <span style="color: #ed9d13">"seated hamstring stretch, feet together"</span>
+    <span style="color: #d0d0d0">],</span> 
+    <span style="color: #ed9d13">"depth"</span><span style="color: #d0d0d0">:</span> <span style="color: #d0d0d0">[</span>
+        <span style="color: #ed9d13">"depth jump"</span>
+    <span style="color: #d0d0d0">]</span>
+<span style="color: #d0d0d0">}</span>
+</pre>
+</div>
+<p>
+And then from there, I can make edge N grams so that subsets of a token map to a token (and that token subsequently maps to exercise names).  So for example:
+</p>
+<p><!-- HTML generated using hilite.me -->
+</p><div style="background: #202020; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #d0d0d0">n_gram_to_tokens</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">{</span>
+    <span style="color: #ed9d13">"wei"</span><span style="color: #d0d0d0">:</span> <span style="color: #d0d0d0">[</span>
+        <span style="color: #ed9d13">u'weighted'</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">u'weight'</span>
+    <span style="color: #d0d0d0">],</span>
+    <span style="color: #ed9d13">"weig"</span><span style="color: #d0d0d0">:</span> <span style="color: #d0d0d0">[</span>
+        <span style="color: #ed9d13">u'weighted'</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">u'weight'</span>
+    <span style="color: #d0d0d0">],</span>
+    <span style="color: #ed9d13">"weigh"</span><span style="color: #d0d0d0">:</span> <span style="color: #d0d0d0">[</span>
+        <span style="color: #ed9d13">u'weighted'</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">u'weight'</span>
+    <span style="color: #d0d0d0">],</span>
+    <span style="color: #ed9d13">"weight"</span><span style="color: #d0d0d0">:</span> <span style="color: #d0d0d0">[</span>
+        <span style="color: #ed9d13">u'weighted'</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">u'weight'</span>
+    <span style="color: #d0d0d0">],</span>
+    <span style="color: #ed9d13">"weighte"</span><span style="color: #d0d0d0">:</span> <span style="color: #d0d0d0">[</span>
+        <span style="color: #ed9d13">u'weighted'</span>
+    <span style="color: #d0d0d0">],</span>
+    <span style="color: #ed9d13">"weighted"</span><span style="color: #d0d0d0">:</span> <span style="color: #d0d0d0">[</span>
+        <span style="color: #ed9d13">u'weighted'</span>
+    <span style="color: #d0d0d0">]</span>
+<span style="color: #d0d0d0">}</span>
+</pre>
+</div>
+<p>
+And we can build out those datastructures like so:
+</p>
+<p><!-- HTML generated using hilite.me -->
+</p><div style="background: #202020; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #6ab825; font-weight: bold">class</span> <span style="color: #447fcf; text-decoration: underline">AutoCompleter</span><span style="color: #d0d0d0">(</span><span style="color: #24909d">object</span><span style="color: #d0d0d0">):</span>
+
+    <span style="color: #d0d0d0">MIN_N_GRAM_SIZE</span> <span style="color: #d0d0d0">=</span> <span style="color: #3677a9">3</span>
+
+    <span style="color: #d0d0d0">exercise_names</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">[dict_obj[</span><span style="color: #ed9d13">"name"</span><span style="color: #d0d0d0">]</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">dict_obj</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">read_file_as_json(</span><span style="color: #ed9d13">"exercises.json"</span><span style="color: #d0d0d0">)]</span>
+    <span style="color: #d0d0d0">token_to_exercise_name</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">defaultdict(</span><span style="color: #24909d">list</span><span style="color: #d0d0d0">)</span>
+    <span style="color: #d0d0d0">n_gram_to_tokens</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">defaultdict(</span><span style="color: #24909d">set</span><span style="color: #d0d0d0">)</span>
+    <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">exercise_name</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">exercise_names:</span>
+        <span style="color: #d0d0d0">exercise_name</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">exercise_name.lower().replace(</span><span style="color: #ed9d13">"-"</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">" "</span><span style="color: #d0d0d0">).replace(</span><span style="color: #ed9d13">"("</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">" "</span><span style="color: #d0d0d0">).replace(</span><span style="color: #ed9d13">")"</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">" "</span><span style="color: #d0d0d0">).replace(</span><span style="color: #ed9d13">"'"</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">" "</span><span style="color: #d0d0d0">)</span>
+        <span style="color: #d0d0d0">tokens</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">exercise_name.split()</span>
+        <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">token</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">tokens:</span>
+            <span style="color: #d0d0d0">token_to_exercise_name[token].append(exercise_name)</span>
+            <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">string_size</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #24909d">xrange</span><span style="color: #d0d0d0">(MIN_N_GRAM_SIZE,</span> <span style="color: #24909d">len</span><span style="color: #d0d0d0">(token)</span> <span style="color: #d0d0d0">+</span> <span style="color: #3677a9">1</span><span style="color: #d0d0d0">):</span>
+                <span style="color: #d0d0d0">n_gram</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">token[:string_size]</span>
+                <span style="color: #d0d0d0">n_gram_to_tokens[n_gram].add(token)</span>
+</pre>
+</div>
+<p>
+Then I filled out the rest of the class that basically completes some pretty simple steps for a program:</p>
+<ul>
+<li>Take input tokens and treat them as potential n grams and turn them into tokens (that then map to exercises)</li>
+<li>From the cleaned tokens we have, get all of the possible exercises they map to</li>
+<li>Score how well the tokens map to the exercise name</li>
+<li>Return a subset of the exercises (i.e. don’t return 100 results)</li>
+</ul>
+<p>So the entire class ends up looking like this:
+</p>
+<p><!-- HTML generated using hilite.me -->
+</p><div style="background: #202020; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #6ab825; font-weight: bold">class</span> <span style="color: #447fcf; text-decoration: underline">AutoCompleter</span><span style="color: #d0d0d0">(</span><span style="color: #24909d">object</span><span style="color: #d0d0d0">):</span>
+
+    <span style="color: #d0d0d0">MIN_N_GRAM_SIZE</span> <span style="color: #d0d0d0">=</span> <span style="color: #3677a9">3</span>
+
+    <span style="color: #d0d0d0">exercise_names</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">[dict_obj[</span><span style="color: #ed9d13">"name"</span><span style="color: #d0d0d0">]</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">dict_obj</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">read_file_as_json(</span><span style="color: #ed9d13">"exercises.json"</span><span style="color: #d0d0d0">)]</span>
+    <span style="color: #d0d0d0">token_to_exercise_name</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">defaultdict(</span><span style="color: #24909d">list</span><span style="color: #d0d0d0">)</span>
+    <span style="color: #d0d0d0">n_gram_to_tokens</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">defaultdict(</span><span style="color: #24909d">set</span><span style="color: #d0d0d0">)</span>
+    <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">exercise_name</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">exercise_names:</span>
+        <span style="color: #d0d0d0">exercise_name</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">exercise_name.lower().replace(</span><span style="color: #ed9d13">"-"</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">" "</span><span style="color: #d0d0d0">).replace(</span><span style="color: #ed9d13">"("</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">" "</span><span style="color: #d0d0d0">).replace(</span><span style="color: #ed9d13">")"</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">" "</span><span style="color: #d0d0d0">).replace(</span><span style="color: #ed9d13">"'"</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">" "</span><span style="color: #d0d0d0">)</span>
+        <span style="color: #d0d0d0">tokens</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">exercise_name.split()</span>
+        <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">token</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">tokens:</span>
+            <span style="color: #d0d0d0">token_to_exercise_name[token].append(exercise_name)</span>
+            <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">string_size</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #24909d">xrange</span><span style="color: #d0d0d0">(MIN_N_GRAM_SIZE,</span> <span style="color: #24909d">len</span><span style="color: #d0d0d0">(token)</span> <span style="color: #d0d0d0">+</span> <span style="color: #3677a9">1</span><span style="color: #d0d0d0">):</span>
+                <span style="color: #d0d0d0">n_gram</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">token[:string_size]</span>
+                <span style="color: #d0d0d0">n_gram_to_tokens[n_gram].add(token)</span>
+
+    <span style="color: #6ab825; font-weight: bold">def</span> <span style="color: #447fcf">_get_real_tokens_from_possible_n_grams</span><span style="color: #d0d0d0">(</span><span style="color: #24909d">self</span><span style="color: #d0d0d0">,</span> <span style="color: #d0d0d0">tokens):</span>
+        <span style="color: #d0d0d0">real_tokens</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">[]</span>
+        <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">token</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">tokens:</span>
+            <span style="color: #d0d0d0">token_set</span> <span style="color: #d0d0d0">=</span> <span style="color: #24909d">self</span><span style="color: #d0d0d0">.n_gram_to_tokens.get(token,</span> <span style="color: #24909d">set</span><span style="color: #d0d0d0">())</span>
+            <span style="color: #d0d0d0">real_tokens.extend(</span><span style="color: #24909d">list</span><span style="color: #d0d0d0">(token_set))</span>
+        <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #d0d0d0">real_tokens</span>
+
+    <span style="color: #6ab825; font-weight: bold">def</span> <span style="color: #447fcf">_get_scored_exercises_uncollapsed</span><span style="color: #d0d0d0">(</span><span style="color: #24909d">self</span><span style="color: #d0d0d0">,</span> <span style="color: #d0d0d0">real_tokens):</span>
+        <span style="color: #d0d0d0">exercises__scores</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">[]</span>
+        <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">token</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">real_tokens:</span>
+            <span style="color: #d0d0d0">possible_exercises</span> <span style="color: #d0d0d0">=</span> <span style="color: #24909d">self</span><span style="color: #d0d0d0">.token_to_exercise_name.get(token,</span> <span style="color: #d0d0d0">[])</span>
+            <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">exercise_name</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">possible_exercises:</span>
+                <span style="color: #d0d0d0">score</span> <span style="color: #d0d0d0">=</span> <span style="color: #24909d">float</span><span style="color: #d0d0d0">(</span><span style="color: #24909d">len</span><span style="color: #d0d0d0">(token))</span> <span style="color: #d0d0d0">/</span> <span style="color: #24909d">len</span><span style="color: #d0d0d0">(exercise_name.replace(</span><span style="color: #ed9d13">" "</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">""</span><span style="color: #d0d0d0">))</span>
+                <span style="color: #d0d0d0">exercises__scores.append((exercise_name,</span> <span style="color: #d0d0d0">score))</span>
+        <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #d0d0d0">exercises__scores</span>
+
+    <span style="color: #6ab825; font-weight: bold">def</span> <span style="color: #447fcf">_combined_exercise_scores</span><span style="color: #d0d0d0">(</span><span style="color: #24909d">self</span><span style="color: #d0d0d0">,</span> <span style="color: #d0d0d0">exercises__scores,</span> <span style="color: #d0d0d0">num_tokens):</span>
+        <span style="color: #d0d0d0">collapsed_exercise_to_score</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">defaultdict(</span><span style="color: #24909d">int</span><span style="color: #d0d0d0">)</span>
+        <span style="color: #d0d0d0">collapsed_exercise_to_occurence</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">defaultdict(</span><span style="color: #24909d">int</span><span style="color: #d0d0d0">)</span>
+        <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">exercise,</span> <span style="color: #d0d0d0">score</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">exercises__scores:</span>
+            <span style="color: #d0d0d0">collapsed_exercise_to_score[exercise]</span> <span style="color: #d0d0d0">+=</span> <span style="color: #d0d0d0">score</span>
+            <span style="color: #d0d0d0">collapsed_exercise_to_occurence[exercise]</span> <span style="color: #d0d0d0">+=</span> <span style="color: #3677a9">1</span>
+        <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">exercise</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">collapsed_exercise_to_score.keys():</span>
+            <span style="color: #d0d0d0">collapsed_exercise_to_score[exercise]</span> <span style="color: #d0d0d0">*=</span> <span style="color: #d0d0d0">collapsed_exercise_to_occurence[exercise]</span> <span style="color: #d0d0d0">/</span> <span style="color: #24909d">float</span><span style="color: #d0d0d0">(num_tokens)</span>
+        <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #d0d0d0">collapsed_exercise_to_score</span>
+
+    <span style="color: #6ab825; font-weight: bold">def</span> <span style="color: #447fcf">_filtered_results</span><span style="color: #d0d0d0">(</span><span style="color: #24909d">self</span><span style="color: #d0d0d0">,</span> <span style="color: #d0d0d0">exercises__scores):</span>
+        <span style="color: #d0d0d0">min_results</span> <span style="color: #d0d0d0">=</span> <span style="color: #3677a9">3</span>
+        <span style="color: #d0d0d0">max_results</span> <span style="color: #d0d0d0">=</span> <span style="color: #3677a9">10</span>
+        <span style="color: #d0d0d0">score_threshold</span> <span style="color: #d0d0d0">=</span> <span style="color: #3677a9">0.4</span>
+        <span style="color: #d0d0d0">max_possibles</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">exercises__scores[:max_results]</span>
+        <span style="color: #6ab825; font-weight: bold">if</span> <span style="color: #d0d0d0">exercises__scores</span> <span style="color: #6ab825; font-weight: bold">and</span> <span style="color: #d0d0d0">exercises__scores[</span><span style="color: #3677a9">0</span><span style="color: #d0d0d0">][</span><span style="color: #3677a9">1</span><span style="color: #d0d0d0">]</span> <span style="color: #d0d0d0">==</span> <span style="color: #3677a9">1.0</span><span style="color: #d0d0d0">:</span>
+            <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #d0d0d0">[exercises__scores[</span><span style="color: #3677a9">0</span><span style="color: #d0d0d0">][</span><span style="color: #3677a9">0</span><span style="color: #d0d0d0">]]</span>
+
+        <span style="color: #d0d0d0">possibles_within_thresh</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">[tuple_obj</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">tuple_obj</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">exercises__scores</span> <span style="color: #6ab825; font-weight: bold">if</span> <span style="color: #d0d0d0">tuple_obj[</span><span style="color: #3677a9">1</span><span style="color: #d0d0d0">]</span> <span style="color: #d0d0d0">&gt;=</span> <span style="color: #d0d0d0">score_threshold]</span>
+        <span style="color: #d0d0d0">min_possibles</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">possibles_within_thresh</span> <span style="color: #6ab825; font-weight: bold">if</span> <span style="color: #24909d">len</span><span style="color: #d0d0d0">(possibles_within_thresh)</span> <span style="color: #d0d0d0">&gt;</span> <span style="color: #d0d0d0">min_results</span> <span style="color: #6ab825; font-weight: bold">else</span> <span style="color: #d0d0d0">max_possibles[:min_results]</span>
+        <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #d0d0d0">[tuple_obj[</span><span style="color: #3677a9">0</span><span style="color: #d0d0d0">]</span> <span style="color: #6ab825; font-weight: bold">for</span> <span style="color: #d0d0d0">tuple_obj</span> <span style="color: #6ab825; font-weight: bold">in</span> <span style="color: #d0d0d0">min_possibles]</span>
+
+    <span style="color: #6ab825; font-weight: bold">def</span> <span style="color: #447fcf">guess_exercises</span><span style="color: #d0d0d0">(</span><span style="color: #24909d">self</span><span style="color: #d0d0d0">,</span> <span style="color: #d0d0d0">tokens):</span>
+        <span style="color: #d0d0d0">real_tokens</span> <span style="color: #d0d0d0">=</span> <span style="color: #24909d">self</span><span style="color: #d0d0d0">._get_real_tokens_from_possible_n_grams(tokens)</span>
+        <span style="color: #d0d0d0">exercises__scores</span> <span style="color: #d0d0d0">=</span> <span style="color: #24909d">self</span><span style="color: #d0d0d0">._get_scored_exercises_uncollapsed(real_tokens)</span>
+        <span style="color: #d0d0d0">collapsed_exercise_to_score</span> <span style="color: #d0d0d0">=</span> <span style="color: #24909d">self</span><span style="color: #d0d0d0">._combined_exercise_scores(exercises__scores,</span> <span style="color: #24909d">len</span><span style="color: #d0d0d0">(tokens))</span>
+        <span style="color: #d0d0d0">exercises__scores</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">collapsed_exercise_to_score.items()</span>
+        <span style="color: #d0d0d0">exercises__scores.sort(key=</span><span style="color: #6ab825; font-weight: bold">lambda</span> <span style="color: #d0d0d0">t:</span> <span style="color: #d0d0d0">t[</span><span style="color: #3677a9">1</span><span style="color: #d0d0d0">],</span> <span style="color: #d0d0d0">reverse=</span><span style="color: #24909d">True</span><span style="color: #d0d0d0">)</span>
+        <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #24909d">self</span><span style="color: #d0d0d0">._filtered_results(exercises__scores)</span>
+</pre>
+</div>
+<p>
+So for the following program:
+</p>
+<p><!-- HTML generated using hilite.me -->
+</p><div style="background: #202020; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #d0d0d0">spellchecker</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">SpellChecker()</span>
+<span style="color: #d0d0d0">tokens</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">spellchecker.correct_phrase(</span><span style="color: #ed9d13">"dumbel sid bat babell shug pank"</span><span style="color: #d0d0d0">)</span>
+<span style="color: #6ab825; font-weight: bold">print</span> <span style="color: #d0d0d0">AutoCompleter().guess_exercises(tokens)</span>
+
+<span style="color: #d0d0d0">tokens</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">spellchecker.correct_phrase(</span><span style="color: #ed9d13">"babell bech press"</span><span style="color: #d0d0d0">)</span>
+<span style="color: #6ab825; font-weight: bold">print</span> <span style="color: #d0d0d0">AutoCompleter().guess_exercises(tokens)</span>
+
+<span style="color: #d0d0d0">tokens</span> <span style="color: #d0d0d0">=</span> <span style="color: #d0d0d0">spellchecker.correct_phrase(</span><span style="color: #ed9d13">"side step"</span><span style="color: #d0d0d0">)</span>
+<span style="color: #6ab825; font-weight: bold">print</span> <span style="color: #d0d0d0">AutoCompleter().guess_exercises(tokens)</span>
+</pre>
+</div>
+<p>
+The output becomes:
+</p>
+<p><!-- HTML generated using hilite.me -->
+</p><div style="background: #202020; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #d0d0d0">[</span><span style="color: #ed9d13">u'barbell shoulder shrug'</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">u'barbell row'</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">u'side plank'</span><span style="color: #d0d0d0">]</span>
+<span style="color: #d0d0d0">[</span><span style="color: #ed9d13">u'barbell bench press'</span><span style="color: #d0d0d0">]</span>
+<span style="color: #d0d0d0">[</span><span style="color: #ed9d13">u'side to side push up'</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">u'step up '</span><span style="color: #d0d0d0">,</span> <span style="color: #ed9d13">u'side plank'</span><span style="color: #d0d0d0">]</span>
+</pre>
+</div>
+<h2>The Javascript</h2>
+<p>
+Skip a few steps and assume we now have an API that returns the data we just built out.  So now we have something like:
+</p>
+<p><a href="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/Screen-Shot-2015-02-27-at-2.04.21-PM.png"><img src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/Screen-Shot-2015-02-27-at-2.04.21-PM.png" alt="Screen Shot 2015-02-27 at 2.04.21 PM" class="alignnone size-medium wp-image-1208" srcset="http://scottlobdell.me/wp-content/uploads/2015/02/Screen-Shot-2015-02-27-at-2.04.21-PM.png 416w, http://scottlobdell.me/wp-content/uploads/2015/02/Screen-Shot-2015-02-27-at-2.04.21-PM-179x300.png 179w" sizes="(max-width: 416px) 100vw, 416px"></a></p>
+<p>
+Then with Javascript and Bootstrap, it’s really easy to build out an autocomplete front end:
+</p>
+<p><!-- HTML generated using hilite.me -->
+</p><div style="background: #202020; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #d0d0d0">&lt;script&gt;</span>
+<span style="color: #d0d0d0">$(</span><span style="color: #24909d">document</span><span style="color: #d0d0d0">).ready(</span><span style="color: #6ab825; font-weight: bold">function</span><span style="color: #d0d0d0">(){</span>
+    <span style="color: #d0d0d0">$(</span><span style="color: #ed9d13">".typeahead"</span><span style="color: #d0d0d0">).typeahead({</span>
+        <span style="color: #d0d0d0">source:</span> <span style="color: #d0d0d0">_.debounce(</span><span style="color: #6ab825; font-weight: bold">function</span><span style="color: #d0d0d0">(query,</span> <span style="color: #d0d0d0">process){</span>
+            <span style="color: #6ab825; font-weight: bold">var</span> <span style="color: #d0d0d0">url</span> <span style="color: #d0d0d0">=</span> <span style="color: #ed9d13">"/api/autocomplete/?q="</span> <span style="color: #d0d0d0">+</span> <span style="color: #d0d0d0">query;</span>
+            <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #d0d0d0">$.get(url,</span> <span style="color: #6ab825; font-weight: bold">function</span><span style="color: #d0d0d0">(data){</span>
+                <span style="color: #999999; font-style: italic">// data is the raw response from the API</span>
+                <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #d0d0d0">process(data);</span>
+            <span style="color: #d0d0d0">});</span>
+        <span style="color: #d0d0d0">},</span> <span style="color: #3677a9">100</span><span style="color: #d0d0d0">),</span>
+        <span style="color: #d0d0d0">matcher:</span> <span style="color: #6ab825; font-weight: bold">function</span><span style="color: #d0d0d0">(item){</span>
+            <span style="color: #999999; font-style: italic">// needed in order to allow typos</span>
+            <span style="color: #6ab825; font-weight: bold">return</span> <span style="color: #6ab825; font-weight: bold">true</span><span style="color: #d0d0d0">;</span>
+        <span style="color: #d0d0d0">},</span>
+        <span style="color: #d0d0d0">items:</span> <span style="color: #3677a9">10</span><span style="color: #d0d0d0">,</span>
+        <span style="color: #d0d0d0">minLength:</span> <span style="color: #3677a9">1</span>
+    <span style="color: #d0d0d0">});</span>
+<span style="color: #d0d0d0">});</span>
+<span style="color: #d0d0d0">&lt;</span><span style="color: #a61717; background-color: #e3d2d2">/script&gt;</span>
+</pre>
+</div>
+<p>
+I used Bootstrap Typeahead, and I also modified the matcher function to always return True so that spelling mistakes were allowed (since those get corrected on the backend).  And also notice that I used Underscore’s debounce function in order to throttle the number of API requests being made.  And now the finished product looks like this:
+</p>
+<p><a href="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/Screen-Shot-2015-02-27-at-2.07.03-PM.png"><img src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/Screen-Shot-2015-02-27-at-2.07.03-PM.png" alt="Screen Shot 2015-02-27 at 2.07.03 PM" class="alignnone size-medium wp-image-1209" srcset="http://scottlobdell.me/wp-content/uploads/2015/02/Screen-Shot-2015-02-27-at-2.07.03-PM.png 592w, http://scottlobdell.me/wp-content/uploads/2015/02/Screen-Shot-2015-02-27-at-2.07.03-PM-265x300.png 265w" sizes="(max-width: 592px) 100vw, 592px"></a></p>
+<h2>The End</h2>
+			</div>
+	</article><nav class="post-navigation clearfix" role="navigation">
+<div class="post-nav left">
+<a href="http://scottlobdell.me/2015/02/getting-started-amazon-cloud-search-nosql-python/" rel="prev">← Previous post</a></div>
+<div class="post-nav right">
+<a href="http://scottlobdell.me/2015/03/use-mechanical-turk-python-boto-crowdsource-tasks/" rel="next">Next post →</a></div>
+</nav>
+
+<div id="disqus_thread"><iframe id="dsq-app1470" name="dsq-app1470" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/saved_resource.html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 680px !important;" horizontalscrolling="no" verticalscrolling="no"></iframe></div>
+
+<script type="text/javascript">
+var disqus_url = 'http://scottlobdell.me/2015/02/writing-autocomplete-engine-scratch-python/';
+var disqus_identifier = '1198 http://scottlobdell.me/?p=1198';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'scottlobdell';
+var disqus_title = "Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=1198';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+	</div>
+	<aside class="mh-sidebar sb-right">
+	<div id="text-2" class="sb-widget widget_text"><h4 class="widget-title">Social Media</h4>			<div class="textwidget"><a href="https://twitter.com/slobdell3"><img src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/173px-Twitter_bird_logo_2012.svg.png" style="width:100px;display: inline-block;"></a>
+</div>
+		</div>		<div id="recent-posts-2" class="sb-widget widget_recent_entries">		<h4 class="widget-title">Recent Posts</h4>		<ul>
+					<li>
+				<a href="http://scottlobdell.me/2017/11/complete-raspberry-pi-image-internet-things-project/">Complete Raspberry Pi Image for Internet of Things Project</a>
+						</li>
+					<li>
+				<a href="http://scottlobdell.me/2017/09/kalman-filters-words/">Kalman Filters, In My Own Words</a>
+						</li>
+					<li>
+				<a href="http://scottlobdell.me/2017/04/altitude-climb-blimp/">Altitude Climb in a Blimp</a>
+						</li>
+					<li>
+				<a href="http://scottlobdell.me/2017/04/blimp-autopilot-flight-test-wind/">Blimp Autopilot Flight Test in the Wind</a>
+						</li>
+					<li>
+				<a href="http://scottlobdell.me/2017/03/successful-rc-blimp-autopilot-flight-test/">Successful RC Blimp Autopilot Flight Test</a>
+						</li>
+				</ul>
+		</div>		<div id="recent-comments-2" class="sb-widget widget_recent_comments"><h4 class="widget-title">Recent Comments</h4><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link">Pstoppani</span> on <a href="http://scottlobdell.me/2017/09/kalman-filters-words/#comment-4951">Kalman Filters, In My Own Words</a></li><li class="recentcomments"><span class="comment-author-link">Gabe Ambrosio</span> on <a href="http://scottlobdell.me/2013/08/understanding-python-variables-as-pointers/#comment-4949">Understanding Python variables as pointers</a></li><li class="recentcomments"><span class="comment-author-link">Klas Löfstedt</span> on <a href="http://scottlobdell.me/2017/03/video-tutorials-outlining-inertial-measurement-unit-imu-implementation-sensor-fusion-gps/#comment-4946">Video Tutorials Outlining Inertial Measurement Unit (IMU) implementation and Sensor Fusion with GPS</a></li><li class="recentcomments"><span class="comment-author-link">Naitsab_33</span> on <a href="http://scottlobdell.me/2015/04/decorators-arguments-python/#comment-4945">Decorators With Arguments in Python</a></li><li class="recentcomments"><span class="comment-author-link">Lei Sun</span> on <a href="http://scottlobdell.me/2017/01/gps-accelerometer-sensor-fusion-kalman-filter-practical-walkthrough/#comment-4943">GPS and Accelerometer Sensor Fusion with a Kalman Filter, a Practical Walkthrough (Golang)</a></li></ul></div><div id="archives-2" class="sb-widget widget_archive"><h4 class="widget-title">Archives</h4>		<ul>
+			<li><a href="http://scottlobdell.me/2017/11/">November 2017</a></li>
+	<li><a href="http://scottlobdell.me/2017/09/">September 2017</a></li>
+	<li><a href="http://scottlobdell.me/2017/04/">April 2017</a></li>
+	<li><a href="http://scottlobdell.me/2017/03/">March 2017</a></li>
+	<li><a href="http://scottlobdell.me/2017/01/">January 2017</a></li>
+	<li><a href="http://scottlobdell.me/2016/12/">December 2016</a></li>
+	<li><a href="http://scottlobdell.me/2016/10/">October 2016</a></li>
+	<li><a href="http://scottlobdell.me/2016/09/">September 2016</a></li>
+	<li><a href="http://scottlobdell.me/2016/08/">August 2016</a></li>
+	<li><a href="http://scottlobdell.me/2016/07/">July 2016</a></li>
+	<li><a href="http://scottlobdell.me/2016/06/">June 2016</a></li>
+	<li><a href="http://scottlobdell.me/2016/05/">May 2016</a></li>
+	<li><a href="http://scottlobdell.me/2016/04/">April 2016</a></li>
+	<li><a href="http://scottlobdell.me/2016/02/">February 2016</a></li>
+	<li><a href="http://scottlobdell.me/2016/01/">January 2016</a></li>
+	<li><a href="http://scottlobdell.me/2015/11/">November 2015</a></li>
+	<li><a href="http://scottlobdell.me/2015/09/">September 2015</a></li>
+	<li><a href="http://scottlobdell.me/2015/08/">August 2015</a></li>
+	<li><a href="http://scottlobdell.me/2015/07/">July 2015</a></li>
+	<li><a href="http://scottlobdell.me/2015/06/">June 2015</a></li>
+	<li><a href="http://scottlobdell.me/2015/05/">May 2015</a></li>
+	<li><a href="http://scottlobdell.me/2015/04/">April 2015</a></li>
+	<li><a href="http://scottlobdell.me/2015/03/">March 2015</a></li>
+	<li><a href="http://scottlobdell.me/2015/02/">February 2015</a></li>
+	<li><a href="http://scottlobdell.me/2015/01/">January 2015</a></li>
+	<li><a href="http://scottlobdell.me/2014/12/">December 2014</a></li>
+	<li><a href="http://scottlobdell.me/2014/11/">November 2014</a></li>
+	<li><a href="http://scottlobdell.me/2014/10/">October 2014</a></li>
+	<li><a href="http://scottlobdell.me/2014/09/">September 2014</a></li>
+	<li><a href="http://scottlobdell.me/2014/08/">August 2014</a></li>
+	<li><a href="http://scottlobdell.me/2014/06/">June 2014</a></li>
+	<li><a href="http://scottlobdell.me/2014/05/">May 2014</a></li>
+	<li><a href="http://scottlobdell.me/2014/04/">April 2014</a></li>
+	<li><a href="http://scottlobdell.me/2014/03/">March 2014</a></li>
+	<li><a href="http://scottlobdell.me/2014/02/">February 2014</a></li>
+	<li><a href="http://scottlobdell.me/2014/01/">January 2014</a></li>
+	<li><a href="http://scottlobdell.me/2013/12/">December 2013</a></li>
+	<li><a href="http://scottlobdell.me/2013/11/">November 2013</a></li>
+	<li><a href="http://scottlobdell.me/2013/09/">September 2013</a></li>
+	<li><a href="http://scottlobdell.me/2013/08/">August 2013</a></li>
+		</ul>
+		</div></aside></div>
+</div>
+<div class="copyright-wrap">
+	<p class="copyright">Copyright © 2018 | <a href="http://www.mhthemes.com/" rel="nofollow">MH Corporate basic by MH Themes</a></p>
+</div>
+</div>
+        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'scottlobdell';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type="text/javascript" src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/comment-reply.min.js.download"></script>
+<script type="text/javascript" src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/wp-embed.min.js.download"></script>
+
+<iframe style="display: none;" src="./Writing Your Own Autocomplete Engine from Scratch in Python (with SpellCheck) – Scott Lobdell_files/saved_resource(1).html"></iframe></body></html>
